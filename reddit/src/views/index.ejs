@@ -1,0 +1,53 @@
+<!DOCTYPE HTML> 
+<html lang="es-ES">
+
+<head>
+	<title>GraphQL</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+</head>
+
+<body>
+<br><br>
+<a href="./">Home</a>
+<a href="./login">Login</a>
+<a href="./account">Account</a>
+<a href="./submit">Submit</a>
+<br><br>
+
+<p>Feed</p>
+
+<div id="feed">
+
+<div class="feed-each">
+	<p>Title</p>
+	<p>Description</p>
+	<p>Upvotes:<span>0</span></p>
+	<p>Downvotes:<span>0</span></p>
+	<div class="comments">
+	
+	</div>
+</div>
+
+</div>
+
+<p>Search</p>
+
+<input value="ULTRASOLOMAMA" type="text" id="search" name="search">
+<button onclick="function1()">Search</button>
+
+<script>
+
+function function1() {
+	var val1 = document.getElementById("search").value;
+
+	if(val1 !== null) {
+	window.location.href = "./search/?query=" + val1;
+	}
+}
+
+</script>
+
+</body>
+
+</html>

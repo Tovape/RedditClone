@@ -1,0 +1,137 @@
+<!DOCTYPE HTML> 
+<html lang="es-ES">
+
+<head>
+	<title>GraphQL</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+</head>
+
+<body>
+
+<button onclick="function1()">Retrieve Data</button>
+<button onclick="function2()">Add Car</button>
+<button onclick="function3()">Modify Car</button>
+<button onclick="function4()">Delete Car</button>
+
+<script>
+
+function function1() {
+	const query = `
+		{
+			Cars {
+				id
+				modelname
+				year
+			} 
+		}
+	`;
+	
+	fetch("http://localhost:3000/graphql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+		},
+		body: JSON.stringify({
+			query
+		})
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
+}
+
+function function2() {
+	const query = `
+		mutation {
+			createCar(input: {
+				modelname: "Opel Astra", 
+				year: 2004
+			}) {
+				id
+				modelname
+				year
+			}
+		}
+	`;
+	
+	fetch("http://localhost:3000/graphql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+		},
+		body: JSON.stringify({
+			query
+		})
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
+}
+
+function function3() {
+	const query = `
+		mutation {
+			updateCar(
+				id: "63bd2e4173f472dd527a99fe",
+				input: {
+				modelname: "Opel Insignia", 
+				year: 2020
+			}) {
+				id
+				modelname
+				year
+			}
+		}
+	`;
+	
+	fetch("http://localhost:3000/graphql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+		},
+		body: JSON.stringify({
+			query
+		})
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
+}
+
+function function4() {
+	const query = `
+		mutation {
+			deleteCar(id: "63bd2f4673f472dd527a9a02") {
+				id
+			}
+		}
+	`;
+	
+	fetch("http://localhost:3000/graphql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+		},
+		body: JSON.stringify({
+			query
+		})
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
+}
+
+</script>
+
+</body>
+
+</html>

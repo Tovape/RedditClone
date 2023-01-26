@@ -1,0 +1,27 @@
+Para nuevo usuario hacemos fetch de 
+
+{
+    "username": "Toni",
+    "email": "tonivalverde0@gmail.com",
+    "password": "ireland36"
+}
+
+para un usuario que es admin el podra hacer
+
+{
+    "username": "Toni",
+    "email": "tonivalverde0@gmail.com",
+    "password": "ireland36",
+    "roles": [
+        "admin",
+	"other"
+    ]
+}
+
+New post
+
+{
+    "poster": "63cc051583577dd68310659e", 
+    "title": "holalal",
+    "description": "descriptio"
+}

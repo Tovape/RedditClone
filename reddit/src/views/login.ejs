@@ -1,0 +1,115 @@
+<!DOCTYPE HTML> 
+<html lang="es-ES">
+
+<head>
+	<title>GraphQL</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+</head>
+
+<body>
+<br><br>
+<a href="./">Home</a>
+<a href="./login">Login</a>
+<a href="./account">Account</a>
+<a href="./submit">Submit</a>
+<br><br>
+
+<input value="Tovape" type="text" id="username" name="username">
+<input value="email@email.com" type="text" id="email" name="email">
+<input value="ireland36" type="text" id="password" name="password">
+<button onclick="function1()">Retrieve Data</button>
+
+<input value="Tovape" type="text" id="username1" name="username1">
+<input value="email@email.com" type="text" id="email1" name="email1">
+<input value="ireland36" type="text" id="password1" name="password1">
+<button onclick="function2()">Login Data</button>
+
+
+<script>
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+function function1() {
+	var val1 = document.getElementById("username").value;
+	var val2 = document.getElementById("email").value;
+	var val3 = document.getElementById("password").value;
+
+	const query = `
+		{
+			"username": "${val1}",
+			"email": "${val2}",
+			"password": "${val3}"
+		}
+	`;
+		
+	fetch("http://localhost:3000/api/auth/signup", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		},
+		body: query
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
+}
+
+
+
+function function2() {
+	var val1 = document.getElementById("username1").value;
+	var val3 = document.getElementById("password1").value;
+
+	const query = `
+		{
+			"username": "${val1}",
+			"password": "${val3}"
+		}
+	`;
+		
+	fetch("http://localhost:3000/api/auth/signin", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		},
+		body: query
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+		setCookie('token',JSON.stringify(data),7);
+		window.location.href = "./";
+	});
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+Authentication (who is accessing the api)
+
+Authorization (is the viewer allowed to access this?)
+
+Error Masking (Prevent leaking of sensitive information)
+
+Protection against malicious actors
