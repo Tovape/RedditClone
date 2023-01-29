@@ -12,11 +12,53 @@ export const getPostsByTitle = async (req, res) => {
 		return res.status(405).json({message: "Title is required"})
 	} else {
 		var temp = 0;
+		var sort = 0;
+		
 		if (req.params.postLimit) {
 			temp = req.params.postLimit
 		}
-		const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } }).skip(temp).limit(10)
-		res.json(post)
+		
+		if (req.params.postSort) {
+			sort = req.params.postSort
+			if (sort == 0) {
+				const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+					.skip(temp)
+					.limit(10)
+					.sort({'upvotes': 'asc'})
+				res.json(post)
+			} else if (sort == 1) {
+				const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+					.skip(temp)
+					.limit(10)
+					.sort({'upvotes': 'desc'})
+				res.json(post)
+			} else if (sort == 2) {
+				const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+					.skip(temp)
+					.limit(10)
+					.sort({'createdAt': 'asc'})
+				res.json(post)
+			} else if (sort == 3) {
+				const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+					.skip(temp)
+					.limit(10)
+					.sort({'createdAt': 'desc'})
+				res.json(post)
+			} else {
+				const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+					.skip(temp)
+					.limit(10)
+				res.json(post)
+			}
+			
+		} else {
+			const post = await Post.find({"title": { $regex: '.*' + req.params.postTitle + '.*' } })
+				.skip(temp)
+				.limit(10)
+			res.json(post)
+		}
+
+		
 	}
 }
 

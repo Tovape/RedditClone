@@ -1,0 +1,27 @@
+/* Media Query */
+
+@media (max-width: 1500px) {
+	
+.container {
+	max-width: 1100px;
+}
+
+}
+
+@media (max-width: 1200px) {
+	
+.container {
+	max-width: 1200px;
+	padding: 0 40px;
+	width: calc(100% - 80px);
+}
+
+}
+
+@media (max-width: 700px) {
+	
+.menu .menu-logo a img:nth-child(2) {
+	display: none;
+}
+	
+}

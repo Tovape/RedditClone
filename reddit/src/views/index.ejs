@@ -1,52 +1,63 @@
-<!DOCTYPE HTML> 
-<html lang="es-ES">
-
-<head>
-	<title>GraphQL</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="UTF-8"/>
-</head>
+<%- 
+include('head.ejs') 
+-%>
 
 <body>
-<br><br>
-<a href="./">Home</a>
-<a href="./login">Login</a>
-<a href="./account">Account</a>
-<a href="./submit">Submit</a>
-<br><br>
 
-<p>Feed</p>
+<%- 
+include('menu.ejs') 
+-%>
 
-<div id="feed">
-
-<div class="feed-each">
-	<p>Title</p>
-	<p>Description</p>
-	<p>Upvotes:<span>0</span></p>
-	<p>Downvotes:<span>0</span></p>
-	<div class="comments">
-	
+<div class="content-wrap">
+	<div class="content">
+		<div class="content-feed">
+			<div class="content-feed-create">
+				<img src="/profile/1.jpg">
+				<a href="">Create Post</a>
+			</div>
+			<div class="content-feed-sort">
+				<a href="">Best</a>
+				<a href="">Controversial</a>
+				<a href="">New</a>
+				<a href="">Old</a>
+			</div>
+			<div class="content-feed-post">
+				<p>Posts here</p>
+			</div>
+		</div>
+		<div class="content-intro">
+			<div class="content-intro-banner">
+				<img src="/images/banner.png">
+				<div>
+					<img src="/images/snoo.png">
+					<p>Home</p>
+				</div>
+				<hr>
+				<div>
+					<a href="/submit">Create Post</a>
+				</div>
+			</div>
+			<div class="content-intro-links">
+				<a href="#">User Agreement</a>
+				<a href="#">Content Policy</a>
+				<a href="#">Privacy Policy</a>
+				<a href="#">Moderator Code Of Conduct</a>
+				<hr>
+				<a href="#">English</a>
+				<a href="#">Deutsch</a>
+				<a href="#">Français</a>
+				<a href="#">Español</a>
+				<a href="#">Italiano</a>
+				<a href="#">Português</a>
+				<hr>
+				<p>Reddit Inc © 2023. All rights reserved</p>
+			</div>
+			<div class="scroll-top" onclick="scrollTop()">
+				<p>Back to Top</p>
+			</div>
+		</div>
 	</div>
 </div>
-
-</div>
-
-<p>Search</p>
-
-<input value="ULTRASOLOMAMA" type="text" id="search" name="search">
-<button onclick="function1()">Search</button>
-
-<script>
-
-function function1() {
-	var val1 = document.getElementById("search").value;
-
-	if(val1 !== null) {
-	window.location.href = "./search/?query=" + val1;
-	}
-}
-
-</script>
 
 </body>
 

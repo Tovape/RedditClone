@@ -15,6 +15,15 @@
 <a href="./submit">Submit</a>
 <br><br>
 
+<select name="sort" id="sort">
+	<option value="0">Best</option>
+	<option value="1">Controversial</option>
+	<option value="2">New</option>
+	<option value="3">Old</option>
+</select>
+
+<button onclick="function1()">Buscar</button>
+
 <a id="anterior" href="">Anterior</a>
 
 <a id="siguiente" href="">Siguiente></a>
@@ -50,6 +59,7 @@ function eraseCookie(name) {
 	const urlParams = new URLSearchParams(queryString);
 	const product = urlParams.get('query')
 	var pages = 0;
+	
 	const page = urlParams.get('page')
 	if (page !== null) {
 		pages = parseInt(page);
@@ -62,7 +72,7 @@ if (product !== null) {
 	token = (JSON.parse(token))["token"];
 	console.log(token)
 	
-	var query = "http://localhost:3000/api/posts/postitle/" + product + "/" + pages;
+	var query = "http://localhost:3000/api/posts/postitle/" + product + "/" + pages + "/0";
 	
 	if (page === null || page == 0) {
 		pages += 10;
@@ -87,6 +97,24 @@ if (product !== null) {
 		console.log(data)
 	});
 	
+}
+
+function function1() {   
+	// Aqui eliminas los posts que ya salen y los updateas con estos:
+	var query = "http://localhost:3000/api/posts/postitle/" + product + "/" + pages + "/" + document.getElementById("sort").value;
+	
+	fetch(query, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+			"x-access-token": token
+		}
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		console.log(data)
+	});
 }
 
 </script>

@@ -1,0 +1,350 @@
+/*
+----------------------------------
+Toni Valverde Frontend
+github.com/Tovape
+HTML / CSS / JS / MongoDB / NodeJS / JWT Reddit Clone
+Ver 1.0
+----------------------------------
+/*
+
+/* Global Variables */
+
+:root {
+	
+	/* Color Palette */
+	--white1: #D7DADC;
+	--black1: #030303;
+	--black2: #1A1A1B;
+	--gray1: #343536;
+	--gray2: #272729;
+	--gray3: #818384;
+	--orange1: #ff4500;
+	
+	/* Shadow Palette */
+	--shadow1: rgba(0,0,0,0.4);
+	
+	/* Fonts */
+	--ibmplex: 'IBM Plex Sans', sans-serif;
+	--noto: 'Noto Sans', sans-serif;
+	
+	/* Font Size */
+	--impfont: 30px;
+	--bigfont: 22px;
+	--norfont: 18px;
+	--smafont: 14px;
+	--micfont: 12px;
+	
+}
+
+/* Global */
+
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html{
+	zoom: 100%; 
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	font-family: var(--noto);
+	background-color: var(--black1);
+}
+
+button, input {
+	all: unset;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+	transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+	font-size: 18px;
+    font-weight: 500;
+}
+
+p {
+	font-size: 14px;
+}
+
+a {
+	display: block;
+	text-decoration: none;
+}
+
+p, a, h1, h2, h3 {
+	margin: 0 !important;
+}
+
+ul {
+	margin: 0;
+	padding-left: 20px;
+}
+
+/* Scrollbar */
+
+body::-webkit-scrollbar {
+	width: 10px;
+}
+ 
+body::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+	background-color: var(--black1);
+	border-radius: 0;
+}
+
+/* Generic */
+
+.container {
+    max-width: 1400px;
+	width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+	position: relative;
+}
+
+/* Menu */
+
+.menu {
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+	position: fixed;
+	top: 0;
+	left:0;
+	width: calc(100% - 40px);
+	height: 48px;
+	background-color: var(--black2);
+	border-bottom: 1px solid var(--gray1);
+    padding: 0 20px;
+}
+
+.menu-logo {
+	padding: 8px 0;
+}
+
+.menu-logo a {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.menu-logo img:nth-child(1) {
+	height: 100%;
+	padding-right: 8px;
+}
+
+.menu-logo img:nth-child(2) {
+	height: 70%;
+}
+
+.menu-search {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-radius: 900px;
+	background-color: var(--gray2);
+	border: 1px solid var(--gray1);
+	width: calc(40% - 20px);
+	padding: 0px 10px;
+	margin: 6px 0;
+}
+
+.menu-search:hover {
+	border: 1px solid var(--white1);
+}
+
+.menu-search img {
+	width: 20px;
+	height: 20px;
+	padding-right: 10px;
+}
+
+.menu-search input {
+	color: var(--white1);
+	width: calc(100% - 30px);
+}
+
+.menu-user {
+	display: flex;
+	flex-direction: row;
+	gap: 18px;
+}
+
+.menu-user .menu-options {
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
+	margin: 8px 0;
+}
+
+.menu-user .menu-options img {
+	height: calc(100% - 12px);
+	width: calc(100% - 12px);
+	min-width: 22px;
+	padding: 6px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.menu-user .menu-options img:hover {
+	background-color: var(--gray2);
+}
+
+.menu-user .menu-profile {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+	padding: 6px;
+	margin: 4px 0;
+	cursor: pointer;
+	position: relative;
+}
+
+.menu-user .menu-profile:hover {
+	outline: 1px solid var(--gray3);
+	border-radius: 4px;
+}
+
+.menu-user .menu-profile > div:not(.menu-profile-content) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+}
+
+.menu-user .menu-profile > div:not(.menu-profile-content) > img {
+	width: 30px;
+	height: 30px;
+	border-radius: 4px;
+}
+
+.menu-user .menu-profile > div:not(.menu-profile-content) > p {
+	color: var(--white1);
+}
+
+.menu-user .menu-profile > img {
+	width: 10px;
+	height: 10px;
+}
+
+.menu-profile-content {
+	display: none;
+	position: absolute;
+	min-width: 200px;
+	overflow: auto;
+	z-index: 1;
+	top: 44px;
+	right: 0;
+	border: 1px solid var(--gray1);
+	background-color: var(--black2);
+	border-radius: 4px;
+	padding: 18px 0;
+	cursor: default;
+}
+
+.menu-profile.show .menu-profile-content {
+	display: flex;
+	flex-direction: column;
+}
+
+.menu-profile-content .menu-section {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+	color: var(--gray3);
+	padding: 0 18px 10px 18px;
+}
+
+.menu-profile-content .menu-section img {
+	width: 20px;
+	height: 20px;
+}
+
+.menu-profile-content .menu-option {
+	padding: 10px 18px 10px 50px;
+}
+
+.menu-profile-content .menu-option:hover {
+	background-color: var(--gray2);
+}
+
+.menu-profile-content .menu-option a {
+	color: var(--white1);
+}
+
+.menu-profile-content hr {
+	margin: 10px 0;
+    border: none;
+    border-top: 1px solid var(--gray3);
+}
+
+.menu-profile-content .menu-section.logout {
+	padding-top: 10px;
+}
+
+.menu-profile-content .menu-section.logout a {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+	color: var(--white1);
+}
+
+.menu-profile-content .menu-section.logout:hover {
+	background-color: var(--gray2);
+}
+
+.menu-profile-content .menu-footer {
+	padding: 10px 18px 0 18px;
+	color: var(--gray3);
+}
+
+.menu-profile-content .menu-footer p {
+	font-size: var(--micfont);
+}
+
+/* Content */
+
+.content-wrap {
+	margin-top: 68px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.content {
+	max-width: 1200px;
+	position: relative;
+    display: flex;
+}
+
+.scroll-top {
+	
+}
+

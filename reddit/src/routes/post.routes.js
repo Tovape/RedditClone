@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", postController.getPosts)
 
-router.get("/postitle/:postTitle/:postLimit", postController.getPostsByTitle)
+router.get("/postitle/:postTitle/:postLimit/:postSort", postController.getPostsByTitle)
 
 router.get("/postid/:postId", postController.getPostById)
 
