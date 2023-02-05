@@ -1,9 +1,10 @@
 export const getUsers = (req, res) => {
-	res.json("hola");
+
 }
 
-export const getUserById = (req, res) => {
-	
+export const getUserById = async (req, res) => {
+	const user = await User.findById(req.params.userId);
+	res.status(201).json(user)	
 }
 
 export const updateUserById = (req, res) => {

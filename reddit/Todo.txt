@@ -2,3 +2,6 @@ Todo:
 
 Add password encryption, email reset
 Iterator to get updates on notifications.
+
+ADD TOKEN VERIFICATION
+updatePostById

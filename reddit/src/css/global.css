@@ -15,22 +15,21 @@ Ver 1.0
 	--white1: #D7DADC;
 	--black1: #030303;
 	--black2: #1A1A1B;
+	--black3: #0e0e0e;
 	--gray1: #343536;
 	--gray2: #272729;
 	--gray3: #818384;
 	--orange1: #ff4500;
+	--blue1: #7193ff;
+	--blue2: #0079D3;
 	
 	/* Shadow Palette */
 	--shadow1: rgba(0,0,0,0.4);
 	
 	/* Fonts */
-	--ibmplex: 'IBM Plex Sans', sans-serif;
 	--noto: 'Noto Sans', sans-serif;
 	
 	/* Font Size */
-	--impfont: 30px;
-	--bigfont: 22px;
-	--norfont: 18px;
 	--smafont: 14px;
 	--micfont: 12px;
 	
@@ -68,24 +67,17 @@ input:-webkit-autofill:focus {
 	transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-h1 {
-
-}
-
-h2 {
-
-}
-
 h3 {
-	font-size: 18px;
     font-weight: 500;
 }
 
-p {
-	font-size: 14px;
+a,p {
+	font-size: var(--smafont);
 }
 
 a {
+	font-size: var(--micfont);
+	color: var(--gray3);
 	display: block;
 	text-decoration: none;
 }
@@ -139,6 +131,7 @@ body::-webkit-scrollbar-thumb {
 	background-color: var(--black2);
 	border-bottom: 1px solid var(--gray1);
     padding: 0 20px;
+	z-index: 9;
 }
 
 .menu-logo {
@@ -296,6 +289,7 @@ body::-webkit-scrollbar-thumb {
 
 .menu-profile-content .menu-option a {
 	color: var(--white1);
+	font-size: var(--smafont);
 }
 
 .menu-profile-content hr {
@@ -328,23 +322,3 @@ body::-webkit-scrollbar-thumb {
 .menu-profile-content .menu-footer p {
 	font-size: var(--micfont);
 }
-
-/* Content */
-
-.content-wrap {
-	margin-top: 68px;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-}
-
-.content {
-	max-width: 1200px;
-	position: relative;
-    display: flex;
-}
-
-.scroll-top {
-	
-}
-

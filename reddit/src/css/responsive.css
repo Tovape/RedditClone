@@ -18,6 +18,14 @@
 
 }
 
+@media (max-width: 1000px) {
+
+.content {
+	max-width: 600px;
+}
+
+}
+
 @media (max-width: 700px) {
 	
 .menu .menu-logo a img:nth-child(2) {

@@ -3,8 +3,35 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export const getPosts = async (req, res) => {
-	const posts = await Post.find();
-	res.json(posts)
+	var sort = 0;
+	
+	if (req.params.postSort) {
+		sort = req.params.postSort
+		if (sort == 0) {
+			const posts = await Post.find()
+				.sort({'upvotes': 'asc'})
+			res.json(posts)
+		} else if (sort == 1) {
+			const posts = await Post.find()
+				.sort({'upvotes': 'desc'})
+			res.json(posts)
+		} else if (sort == 2) {
+			const posts = await Post.find()
+				.sort({'createdAt': 'asc'})
+			res.json(posts)
+		} else if (sort == 3) {
+			const posts = await Post.find()
+				.sort({'createdAt': 'desc'})
+			res.json(posts)
+		} else {
+			const posts = await Post.find()
+			res.json(posts)
+		}
+		
+	} else {
+		const posts = await Post.find()
+		res.json(posts)
+	}
 }
 
 export const getPostsByTitle = async (req, res) => {
@@ -69,15 +96,20 @@ export const createPost = async (req, res) => {
 	
 	// Get User ID
 	var temp = req.headers["x-access-token"]
+	if (!temp) return res.status(403).json({message: "No token provided"})
+
 	const decoded = jwt.verify(temp, "user-api-signed")
-	req.body.poster = decoded.id;
+	req.body.posterId = decoded.id;
 	
 	if (!req.body.description) {
 		return res.status(405).json({message: "Description is required"})
 	}
 	
+	const getposterName = await User.findById(req.body.posterId);
+
 	const newPost = new Post({
-		poster: req.body.poster,
+		posterId: req.body.posterId,
+		posterName: getposterName.username,
 		title: req.body.title,
 		description: req.body.description,
 		upvotes: 0,
@@ -116,9 +148,7 @@ export const deletePostById = async (req, res) => {
 	if (!user) return res.status(404).json({message: "No User Found"})
 
 	const post = await Post.find({_id: postId, poster: user._id})
-	console.log(user._id)
-	console.log(post)
-	console.log(postId)
+
 	if (!post || post.length === 0) {
 		console.log("Not Allowed")
 		res.status(403).json({message: "Not Allowed"})

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { verifyToken } from "../middleware/authJwt.js";
 const router = Router();
 
-router.get("/", postController.getPosts)
+router.get("/postsort/:postSort", postController.getPosts)
 
 router.get("/postitle/:postTitle/:postLimit/:postSort", postController.getPostsByTitle)
 

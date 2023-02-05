@@ -13,16 +13,28 @@ include('menu.ejs')
 		<div class="content-feed">
 			<div class="content-feed-create">
 				<img src="/profile/1.jpg">
-				<a href="">Create Post</a>
+				<a href="/submit">Create Post</a>
 			</div>
 			<div class="content-feed-sort">
-				<a href="">Best</a>
-				<a href="">Controversial</a>
-				<a href="">New</a>
-				<a href="">Old</a>
+				<a href="#" class="active">
+					<img src="/icons/best.svg">
+					<p>Best</p>
+				</a>
+				<a href="#">
+					<img src="/icons/fire.svg">
+					<p>Controversial</p>
+				</a>
+				<a href="#">
+					<img src="/icons/new.svg">
+					<p>New</p>
+				</a>
+				<a href="#">
+					<img src="/icons/time.svg">
+					<p>Old</p>
+				</a>
 			</div>
-			<div class="content-feed-post">
-				<p>Posts here</p>
+			<div class="content-feed-post" id="content-feed-post-append">
+				
 			</div>
 		</div>
 		<div class="content-intro">
@@ -32,32 +44,51 @@ include('menu.ejs')
 					<img src="/images/snoo.png">
 					<p>Home</p>
 				</div>
+				<div>
+					<p>Your personal Reddit frontpage. Come here to check in with your favorite communities.</p>
+				</div>
 				<hr>
 				<div>
 					<a href="/submit">Create Post</a>
 				</div>
 			</div>
 			<div class="content-intro-links">
-				<a href="#">User Agreement</a>
-				<a href="#">Content Policy</a>
-				<a href="#">Privacy Policy</a>
-				<a href="#">Moderator Code Of Conduct</a>
+				<div>
+					<a href="#">User Agreement</a>
+					<a href="#">Content Policy</a>
+					<a href="#">Privacy Policy</a>
+					<a href="#">Moderator Code Of Conduct</a>
+				</div>
 				<hr>
-				<a href="#">English</a>
-				<a href="#">Deutsch</a>
-				<a href="#">Français</a>
-				<a href="#">Español</a>
-				<a href="#">Italiano</a>
-				<a href="#">Português</a>
+				<div>
+					<a href="#">English</a>
+					<a href="#">Deutsch</a>
+					<a href="#">Français</a>
+					<a href="#">Español</a>
+					<a href="#">Italiano</a>
+					<a href="#">Português</a>
+				</div>
 				<hr>
-				<p>Reddit Inc © 2023. All rights reserved</p>
+				<div>
+					<p>Reddit Inc © 2023. All rights reserved</p>
+				</div>
 			</div>
-			<div class="scroll-top" onclick="scrollTop()">
+			<div class="scroll-top" onclick="scrollerTop()">
 				<p>Back to Top</p>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+
+loadPosts()
+
+});
+
+</script>
 
 </body>
 

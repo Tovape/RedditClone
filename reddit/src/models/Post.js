@@ -17,7 +17,11 @@ const commentSchema = new Schema({
 })
 
 const postSchema = new Schema({
-	poster: {
+	posterId: {
+		type: String,
+		required: true
+	},
+	posterName: {
 		type: String,
 		required: true
 	},
