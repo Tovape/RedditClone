@@ -3,6 +3,7 @@ import morgan from "morgan";
 import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import { alreadyLogged, authorization } from "./middleware/middleware.js";
 import "./database.js";
 import { createRoles } from "./roles.js";
 import cookieParser from "cookie-parser";
@@ -31,50 +32,6 @@ app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/auth", authRoutes)
 
-/* MOVE THIS TO MIDDLEWARES */
-
-const authorization = (req, res, next) => {
-	
-	var token = null;
-	if (req.cookies.token) {
-		token = req.cookies.token;
-		token = ((JSON.parse(token))["token"])
-	}
-	
-	if (token == null || token == "undefined") {
-		res.redirect("/login")
-	} else {
-		try {
-			const data = jwt.verify(token, "user-api-signed");
-			if(data) {
-				next()
-			}
-		} catch {
-			return res.sendStatus(403);
-		}
-	}
-};
-
-const alreadyLogged = (req, res, next) => {
-	var token = null;
-	if (req.cookies.token) {
-		token = req.cookies.token;
-		token = ((JSON.parse(token))["token"])
-	}
-	
-	if (token != null) {
-		const data = jwt.verify(token, "user-api-signed");
-				
-		if((data) && (Object.keys(data).length !== 0)) {
-			res.redirect("/account")
-		} else {
-			res.sendStatus(403).json({message: "An Error Accured"})
-		}
-	} else {
-		next()
-	}
-};
-
 // GET
 app.get("/", (req, res) => {
 	res.render('index.ejs'),
@@ -84,19 +41,38 @@ app.get("/", (req, res) => {
 })
 
 app.get("/login", alreadyLogged, (req, res) => {
-	res.render('login.ejs')
+	res.render('login.ejs'),
+	app.use(express.static(__dirname + '/css')),
+	app.use(express.static(__dirname + '/files')),
+	app.use(express.static(__dirname + '/js'))
 })
 
-app.get("/submit", (req, res) => {
-	res.render('submit.ejs')
+app.get("/signup", alreadyLogged, (req, res) => {
+	res.render('signup.ejs'),
+	app.use(express.static(__dirname + '/css')),
+	app.use(express.static(__dirname + '/files')),
+	app.use(express.static(__dirname + '/js'))
+})
+
+app.get("/submit", authorization, (req, res) => {
+	res.render('submit.ejs'),
+	app.use(express.static(__dirname + '/css')),
+	app.use(express.static(__dirname + '/files')),
+	app.use(express.static(__dirname + '/js'))
 })
 
 app.get("/search", (req, res) => {
-	res.render('search.ejs')
+	res.render('search.ejs'),
+	app.use(express.static(__dirname + '/css')),
+	app.use(express.static(__dirname + '/files')),
+	app.use(express.static(__dirname + '/js'))
 })
 
 app.get("/account", authorization, (req, res) => {
-	res.render('account.ejs')
+	res.render('account.ejs'),
+	app.use(express.static(__dirname + '/css')),
+	app.use(express.static(__dirname + '/files')),
+	app.use(express.static(__dirname + '/js'))
 })
 
 // Other

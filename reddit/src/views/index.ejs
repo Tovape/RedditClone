@@ -1,34 +1,37 @@
 <%- 
-include('head.ejs') 
+include('components/head.ejs') 
 -%>
+	
+	<script type="text/javascript" src="../js/index.js"></script>
+</head>
 
 <body>
 
 <%- 
-include('menu.ejs') 
+include('components/menu.ejs') 
 -%>
 
 <div class="content-wrap">
-	<div class="content">
+	<div class="content home">
 		<div class="content-feed">
 			<div class="content-feed-create">
 				<img src="/profile/1.jpg">
 				<a href="/submit">Create Post</a>
 			</div>
-			<div class="content-feed-sort">
-				<a href="#" class="active">
+			<div class="content-feed-sort" id="content-feed-sort">
+				<a href="/">
 					<img src="/icons/best.svg">
 					<p>Best</p>
 				</a>
-				<a href="#">
+				<a href="/?s=cntr">
 					<img src="/icons/fire.svg">
 					<p>Controversial</p>
 				</a>
-				<a href="#">
+				<a href="/?s=new">
 					<img src="/icons/new.svg">
 					<p>New</p>
 				</a>
-				<a href="#">
+				<a href="/?s=old">
 					<img src="/icons/time.svg">
 					<p>Old</p>
 				</a>
@@ -73,20 +76,19 @@ include('menu.ejs')
 					<p>Reddit Inc © 2023. All rights reserved</p>
 				</div>
 			</div>
-			<div class="scroll-top" onclick="scrollerTop()">
-				<p>Back to Top</p>
-			</div>
 		</div>
 	</div>
 </div>
 
+<%- 
+include('components/popup.ejs') 
+-%>
+
+<%- 
+include('components/scroll.ejs') 
+-%>
+
 <script>
-
-document.addEventListener("DOMContentLoaded", function(event) { 
-
-loadPosts()
-
-});
 
 </script>
 

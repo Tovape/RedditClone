@@ -1,7 +1,8 @@
-Todo:
+Search:
+Styling
 
-Add password encryption, email reset
-Iterator to get updates on notifications.
+Post:
+Structure for upvotes and comments
 
-ADD TOKEN VERIFICATION
-updatePostById
+Auth Controller:
+Sign up check if user already exists

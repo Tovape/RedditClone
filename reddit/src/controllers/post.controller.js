@@ -13,7 +13,7 @@ export const getPosts = async (req, res) => {
 			res.json(posts)
 		} else if (sort == 1) {
 			const posts = await Post.find()
-				.sort({'upvotes': 'desc'})
+				.sort({'downvotes': 'asc'})
 			res.json(posts)
 		} else if (sort == 2) {
 			const posts = await Post.find()
@@ -124,6 +124,18 @@ export const createPost = async (req, res) => {
 
 export const getPostById = async (req, res) => {
 	const post = await Post.findById(req.params.postId);
+	res.status(201).json(post)	
+}
+
+export const getPostsByAccount = async (req, res) => {
+	// Get User ID
+	var temp = req.headers["x-access-token"]
+	if (!temp) return res.status(403).json({message: "No token provided"})
+
+	const decoded = jwt.verify(temp, "user-api-signed")
+	req.body.posterId = decoded.id;
+	
+	const post = await Post.find({posterId: req.body.posterId});
 	res.status(201).json(post)	
 }
 

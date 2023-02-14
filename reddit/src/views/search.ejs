@@ -1,19 +1,23 @@
-<!DOCTYPE HTML> 
-<html lang="es-ES">
+<%- 
+include('components/head.ejs') 
+-%>
 
-<head>
-	<title>GraphQL</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="UTF-8"/>
+	<script type="text/javascript" src="../js/search.js"></script>
 </head>
 
 <body>
-<br><br>
-<a href="./">Home</a>
-<a href="./login">Login</a>
-<a href="./account">Account</a>
-<a href="./submit">Submit</a>
-<br><br>
+
+<%- 
+include('components/menu.ejs') 
+-%>
+
+<div class="content-wrap">
+	<div class="content search">
+		<div class="content-feed-post" id="content-feed-search-append">
+				
+		</div>
+	</div>
+</div>
 
 <select name="sort" id="sort">
 	<option value="0">Best</option>
@@ -22,102 +26,16 @@
 	<option value="3">Old</option>
 </select>
 
-<button onclick="function1()">Buscar</button>
+<button onclick="searchSort()">Buscar</button>
 
 <a id="anterior" href="">Anterior</a>
 
 <a id="siguiente" href="">Siguiente></a>
 
-<script>
 
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-function eraseCookie(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-
-
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const product = urlParams.get('query')
-	var pages = 0;
-	
-	const page = urlParams.get('page')
-	if (page !== null) {
-		pages = parseInt(page);
-	}
-	console.log(product);
-
-if (product !== null) {
-
-	var token = getCookie("token")
-	token = (JSON.parse(token))["token"];
-	console.log(token)
-	
-	var query = "http://localhost:3000/api/posts/postitle/" + product + "/" + pages + "/0";
-	
-	if (page === null || page == 0) {
-		pages += 10;
-		document.getElementById("siguiente").setAttribute("href", "./?query=" + product + "&page=" + pages)
-	} else {
-		pages += 10;
-		document.getElementById("siguiente").setAttribute("href", "./?query=" + product + "&page=" + pages)
-		pages -= 20;
-		document.getElementById("anterior").setAttribute("href", "./?query=" + product + "&page=" + pages)
-	}
-	
-	fetch(query, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json",
-			"x-access-token": token
-		}
-	}).then(response => {
-		return response.json();
-	}).then(data => {
-		console.log(data)
-	});
-	
-}
-
-function function1() {   
-	// Aqui eliminas los posts que ya salen y los updateas con estos:
-	var query = "http://localhost:3000/api/posts/postitle/" + product + "/" + pages + "/" + document.getElementById("sort").value;
-	
-	fetch(query, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json",
-			"x-access-token": token
-		}
-	}).then(response => {
-		return response.json();
-	}).then(data => {
-		console.log(data)
-	});
-}
-
-</script>
+<%- 
+include('components/popup.ejs') 
+-%>
 
 </body>
 

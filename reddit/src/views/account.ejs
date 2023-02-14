@@ -1,86 +1,73 @@
-<!DOCTYPE HTML> 
-<html lang="es-ES">
+<%- 
+include('components/head.ejs') 
+-%>
 
-<head>
-	<title>GraphQL</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="UTF-8"/>
+	<script type="text/javascript" src="../js/account.js"></script>
 </head>
 
 <body>
-<br><br>
-<a href="./">Home</a>
-<a href="./login">Login</a>
-<a href="./account">Account</a>
-<a href="./submit">Submit</a>
-<br><br>
 
-<input value="ULTRASOLOMAMA" type="text" id="title" name="title">
-<input value="TOA LA SEMANA" type="text" id="desc" name="desc">
-<button onclick="function1()">Retrieve Data</button>
+<%- 
+include('components/menu.ejs') 
+-%>
+
+<div class="content-wrap">
+	<div class="content account">
+		<div class="content-feed">
+			<div class="content-submenu content-feed-sort" id="content-feed-sort">
+				<p class="content-submenu-each active" value="posts">Posts</p>
+				<p class="content-submenu-each" value="comments">Comments</p>
+				<p class="content-submenu-each" value="saved">Saved</p>
+				<p class="content-submenu-each" value="upvoted">Upvoted</p>
+				<p class="content-submenu-each" value="downvoted">Downvoted</p>
+			</div>
+			<div id="content-account-feeds">
+				<div class="content-feed-post active" id="content-feed-post-append">
+					
+				</div>
+				<div class="content-feed-comments" id="content-feed-comments-append">
+					
+				</div>
+				<div class="content-feed-saved" id="content-feed-saved-append">
+					
+				</div>
+				<div class="content-feed-upvoted" id="content-feed-upvoted-append">
+					
+				</div>
+				<div class="content-feed-downvoted" id="content-feed-downvoted-append">
+					
+				</div>
+			</div>
+		</div>
+		<div class="content-intro">
+			<div class="content-intro-banner">
+				<img src="/images/banner.png">
+				<div>
+					<p>Username</p>
+				</div>
+				<div>
+					<p>Description</p>
+				</div>
+				<hr>
+				<div>
+					<a href="/submit">Create Post</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- 
+include('components/popup.ejs') 
+-%>
+
+<%- 
+include('components/scroll.ejs') 
+-%>
 
 <script>
 
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-function eraseCookie(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function function1() {
-	var val1 = document.getElementById("title").value;
-	var val2 = document.getElementById("desc").value;
-
-	var token = getCookie("token")
-	token = (JSON.parse(token))["token"];
-	console.log(token)
-	
-	const query = `
-		{
-			"poster": "",
-			"title": "${val1}",
-			"description": "${val2}"
-		}
-	`;
-
-	fetch("http://localhost:3000/api/posts", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json",
-			"x-access-token": token
-		},
-		body: query
-	}).then(response => {
-		return response.json();
-	}).then(data => {
-		console.log(data)
-	});
-}
-
-
-
-
 </script>
-
-</div>
 
 </body>
 

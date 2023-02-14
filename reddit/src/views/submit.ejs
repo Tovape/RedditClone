@@ -1,22 +1,73 @@
-<!DOCTYPE HTML> 
-<html lang="es-ES">
+<%- 
+include('components/head.ejs') 
+-%>
 
-<head>
-	<title>GraphQL</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="UTF-8"/>
+	<script type="text/javascript" src="../js/submit.js"></script>
 </head>
 
 <body>
-<br><br>
-<a href="./">Home</a>
-<a href="./login">Login</a>
-<a href="./account">Account</a>
-<a href="./submit">Submit</a>
-<br><br>
 
+<%- 
+include('components/menu.ejs') 
+-%>
 
-<button onclick="function1()">Trocar</button>
+<div class="content-wrap">
+	<div class="content submit">
+		<div class="content-feed">
+			<p>Create a post</p>
+			<hr>
+			<div class="content-submit">
+				<div class="content-submit-options" id="content-submit-options">
+					<div id="post-normal" value="0" class="active">
+						<img src="/icons/text.svg">
+						<p>Text</p>
+					</div>
+					<div id="post-image" value="1">
+						<img src="/icons/picture.svg">
+						<p>Images</p>
+					</div>
+				</div>
+				<div class="content-submit-fields-wrap">
+					<div class="content-submit-fields" id="content-submit-fields">
+						<div value="0" class="active">
+							<textarea maxlength="300" placeholder="Title" rows="1" name="post_text_title" id="post_text_title"></textarea>
+							<textarea maxlength="5000" placeholder="Text" rows="10" name="post_text_description" id="post_text_description"></textarea>
+						</div>
+						<div value="1">
+							<textarea maxlength="300" placeholder="Title" rows="1" name="post_image_title" id="post_image_title"></textarea>
+							<div class="content-submit-fields-image">
+								<input type="file" id="post_image_file" name="post_image_file">
+								<div>
+									<p>Drag or drop Images or</p>
+									<p class="content-submit-button">Upload</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<p class="content-submit-button" id="content-submit-button">Post</p>
+				</div>
+			</div>
+		</div>
+		<div class="content-intro">
+			<div>
+				<img src="/images/snoo.png">
+				<p>Posting to Reddit Clone</p>
+			</div>
+			<ol>
+				<li>Remember the human</li>
+				<li>Behave like you would in real life</li>
+				<li>Look for the original source of content</li>
+				<li>Search for duplicates before posting</li>
+				<li>Read the community’s rules</li>
+			</ol>  
+		</div>
+	</div>
+</div>
+
+<%- 
+include('components/popup.ejs') 
+-%>
 
 </body>
 

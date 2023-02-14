@@ -18,6 +18,7 @@
 	max-width: 900px;
 	position: relative;
     display: flex;
+	align-items: flex-start;
 	gap: 20px;
 }
 
@@ -284,7 +285,7 @@
     align-items: center;
     flex-direction: row;
     gap: 18px;
-	width: calc(100% - 32px);
+	width: calc(100% - 36px);
 	padding: 0 18px;
 	color: var(--white1);
 }
@@ -348,17 +349,315 @@
 	width: calc(50% - 6px);
 }
 
-.scroll-top {
-	position: absolute;
-	bottom: -48px;
-	right: 0;
+/* Submit Post */
+
+.submit .content-intro {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    background-color: var(--black2);
+    border-radius: 4px;
+    border: 1px solid var(--gray1);	
+	padding: 18px;
+}
+
+.submit .content-intro > div:first-child {
+	display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 18px;
+    width: calc(100% - 36px);
+    color: var(--white1);
+}
+
+.submit .content-intro > div:first-child img {
+	width: 30px;
+	height: 50px;	
+}
+
+.submit .content-intro ol {
+	color: var(--white1);
+}
+
+.submit .content-intro ol li {
+	padding: 6px 0;
+}
+
+.submit .content-intro ol li:first-child {
+	padding-top: 0 !important;
+}
+
+.submit .content-intro ol li:last-child {
+	padding-bottom: 0 !important;
+}
+
+.submit .content-intro ol li:not(:last-child) {
+	border-bottom: 1px solid var(--gray3);
+}
+
+.submit .content-feed > p {
+	color: var(--white1);
+}
+
+.submit .content-feed hr {
+	width: 100%;
+	margin: 0;
+    border: none;
+    border-top: 1px solid var(--gray3);
+}
+
+.submit .content-submit {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    background-color: var(--black2);
+    border-radius: 4px;
+    border: 1px solid var(--gray1);
+}
+
+.submit .content-submit-fields {
+	width: 100%;
+}
+
+.submit .content-submit-options {
+	display: flex;
+	flex-direction: row;
+    align-items: center;
+	width: calc(100% - 2px);
+	border-bottom: 1px solid var(--gray1)
+}
+
+.submit .content-submit-options > div {
+	display: flex;
+	flex-direction: row;
+    align-items: center;
+	justify-content: center;
+	gap: 6px;
+	width: 50%;
+	padding: 12px 0;
 	cursor: pointer;
 }
 
-.scroll-top p {
-	text-align:center;
-	border-radius: 900px;
-	background-color: var(--white1);
-	color: var(--black1);
-	padding: 6px 10px;
+.submit .content-submit-options > div:hover {
+	background-color: var(--gray2);
+}
+
+.submit .content-submit-options > div > p {
+	color: var(--gray3);
+}
+
+.submit .content-submit-options > div > img {
+	height: 18px;
+	width: 18px;
+	filter: invert(50%);
+}
+
+.submit .content-submit-options > div.active {
+	border-bottom: 1px solid var(--white1);
+}
+
+.submit .content-submit-options > div.active p {
+	color: var(--white1) !important;
+}
+
+.submit .content-submit-options > div.active img {
+	filter: invert(100%) !important;
+}
+
+.submit .content-submit-options > div:not(:last-child) {
+	border-right: 1px solid var(--gray1)
+}
+
+.submit .content-submit-fields-wrap {
+	padding: 0 18px 18px 18px;
+	display: flex;
+    flex-direction: column;
+	align-items: flex-end;
+    gap: 18px;
+	width: calc(100% - 36px);
+}
+
+.submit .content-submit-fields > div {
+    flex-direction: column;
+    gap: 18px;
+	display: none;
+}
+
+.submit .content-submit-fields > div.active {
+	display: flex !important;
+}
+
+.submit .content-submit-fields textarea {
+	background-color: transparent;
+	border-radius: 4px;
+	padding: 8px 16px;
+	color: var(--white1);
+	border-color: var(--gray1);
+}
+
+.submit .content-submit-fields textarea[name=post_text_title],.submit .content-submit-fields textarea[name=post_image_title] {
+	resize: none;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.submit .content-submit-fields textarea[name=post_text_description] {
+	resize: vertical;
+}
+
+.submit .content-submit-fields textarea:focus-visible {
+	outline: none;
+}
+
+.submit .content-submit-fields-image {
+	height: 200px;
+	border: 1px solid var(--gray1);
+	border-radius: 4px;
+	border-style: dashed;
+	display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: relative;
+    justify-content: center;
+}
+
+.submit .content-submit-fields-image > div {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    align-items: center;
+    gap: 12px;
+	z-index: 0;
+}
+
+.submit .content-submit-fields-image > div {
+	color: var(--white1);
+}
+
+.submit .content-submit-fields-image > input {
+	opacity: 0;
+	height: 100%;
+	width: 100%;
+    position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+}
+
+.submit .content-submit-button {
+	text-align: center;
+    border-radius: 900px;
+    background-color: var(--white1);
+    color: var(--black1);
+    padding: 6px 10px;
+	cursor: pointer;
+	width: fit-Content;
+}
+
+/* Account */
+
+.account .content-submenu {
+	padding: 0 !important;
+	justify-content: space-between;
+	gap: 0 !important;
+}
+
+.account .content-submenu-each {
+	padding: 12px 18px;
+	color: var(--white1);
+	width: calc(25% - 36px);
+	text-align: center;
+	cursor:pointer;
+}
+
+.account .content-submenu-each.active {
+	border-bottom: 1px solid var(--white1);
+}
+
+#content-account-feeds > div {
+    display: none;
+}
+
+#content-account-feeds > div.active {
+    display: flex !important;	
+}
+
+/* Login Signup */
+
+html:has(body.login-template) {
+	height: 100%;
+}
+
+.login-template {
+	height: 100%;
+	width: 100%;
+}
+
+.content-login {
+	height: 100%;
+	display: flex;
+    flex-direction: row;
+	gap: 20px;
+}
+
+.content-login > img {
+	width: 20%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.content-login > div {
+	padding-right: 20px;
+	width: calc(80% - 40px);
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	gap: 40px;
+}
+
+.content-login > div > div {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	gap: 10px;
+}
+
+.content-login > div > div > input {
+    border-radius: 4px;
+    background-color: var(--gray2);
+    border: 1px solid var(--gray1);
+	padding: 10px;
+	width: calc(300px - 20px);
+	font-size: var(--smafont);
+}
+
+.content-login > div * {
+	color: var(--white1);
+}
+
+.content-login > div > div > p {
+	font-size: var(--micfont);
+}
+
+.content-login > div > div > label {
+	font-size: var(--micfont);
+	margin-bottom: -4px;
+}
+
+.content-login > div > div > p > a {
+	display: inline;
+	color: var(--blue1);
+	font-weight: bold;
+} 
+
+.content-login > div > div > button {
+	background-color: var(--blue2);
+	border-radius: 4px;
+	padding: 10px 40px;
+	width: calc(302px - 80px);
+	text-align: center;
+	margin-top: 10px;
+	cursor: pointer;
 }

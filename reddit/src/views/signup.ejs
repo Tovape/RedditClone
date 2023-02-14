@@ -10,19 +10,20 @@ include('components/head.ejs')
 	<img src="/images/banner2.png">
 	<div>
 		<div>
-			<h3>Log in</h3>
-			<p>By continuing, you agree to our User Agreement and Privacy Policy</p>
+			<h3>Sign up</h3>
+			<p>By continuing, you are setting an account and agree to our User Agreement and Privacy Policy</p>
 		</div>
 		<div>
 			<label for="username">Username</label>
 			<input value="Tovape" type="text" id="username" name="username">
+			<label for="email">Email</label>
+			<input value="email@email.com" type="text" id="email" name="email">
 			<label for="password">Password</label>
 			<input value="ireland36" type="text" id="password" name="password">
-			<button onclick="login()">Log in</button>
+			<button onclick="signup()">Sign up</button>
 		</div>
 		<div>
-			<p>Forgot your username or password?</p>
-			<p>New to Reddit? <a href="/signup">SIGN UP</a></p>
+			<p>Already a redditor? <a href="/login">LOG IN</a></p>
 		</div>
 	</div>
 </div>

@@ -21,20 +21,22 @@
 		<div class="menu-profile" id="menu-profile">
 			<div>
 				<img src="/profile/1.jpg">
-				<p>Tovape01</p>
+				<p id="username"></p>
 			</div>
 			<img src="/icons/arrow-down.svg">
 			<div class="menu-profile-content">
 				<div class="menu-section">
-					<img src="/icons/account.svg">
-					<p>My Stuff</p>
+					<a>
+						<img src="/icons/account.svg">
+						<p>My Stuff</p>
+					</a>
 				</div>
 				<div class="menu-option">
-					<a href="#">Profile</a>
+					<a href="/account">Profile</a>
 				</div>
 				<hr>
 				<div class="menu-section logout">
-					<a href="#">
+					<a id="menu-logout-button">
 						<img src="/icons/logout.svg">
 						<p>Log Out</p>
 					</a>
@@ -43,6 +45,9 @@
 					<p>© 2023 Reddit Clone, Inc. All rights reserved</p>
 				</div>
 			</div>
+		</div>
+		<div class="menu-profile" id="menu-login">
+			<a href="/login">Login</a>
 		</div>
 	</div>
 </div>
