@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function searchForm() {
 	temp = document.getElementById("search").value
 	if(temp !== null && temp !== "") {
-		window.location.href = "./search/?query=" + temp;
+		window.location.href = "/search/?query=" + temp;
 	}
 }
 

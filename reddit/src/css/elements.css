@@ -661,3 +661,16 @@ html:has(body.login-template) {
 	margin-top: 10px;
 	cursor: pointer;
 }
+
+/* Search */
+
+.search {
+	flex-direction: column;
+}
+
+.content-search-pagination {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	margin-bottom: 20px;
+}
