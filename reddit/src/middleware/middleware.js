@@ -74,6 +74,7 @@ export const authorization = (req, res, next) => {
 				next()
 			}
 		} catch {
+			res.redirect("/login")
 			return res.sendStatus(403);
 		}
 	}

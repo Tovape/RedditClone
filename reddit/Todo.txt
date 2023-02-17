@@ -1,3 +1,6 @@
+Server:
+JWT Expiration
+
 Post:
 Structure for upvotes and comments
 

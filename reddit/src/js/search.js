@@ -43,6 +43,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		document.getElementById("search-new").setAttribute("href", "./?query=" + search + "/0/2")
 		document.getElementById("search-old").setAttribute("href", "./?query=" + search + "/0/3")
 		if (page !== null || page != undefined) {
+			
+			pages += 10;
+			if (sort !== null || sort != undefined) {
+				document.getElementById("siguiente").setAttribute("href", "./?query=" + search + "/" + pages + "/" + sort)
+			} else {
+				document.getElementById("siguiente").setAttribute("href", "./?query=" + search + "/" + pages + "/0")
+			}
+			pages -= 20;
+			if (sort !== null || sort != undefined) {
+				document.getElementById("anterior").setAttribute("href", "./?query=" + search + "/" + pages + "/" + sort)
+			} else {
+				document.getElementById("anterior").setAttribute("href", "./?query=" + search + "/" + pages + "/0")
+			}
+			
 			if (sort !== null || sort != undefined) {
 				query = "http://localhost:3000/api/posts/postitle/" + search + "/" + page + "/" + sort;
 			} else {
@@ -53,14 +67,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			document.getElementById("search-new").setAttribute("href", "./?query=" + search + "/" + page + "/2")
 			document.getElementById("search-old").setAttribute("href", "./?query=" + search + "/" + page + "/3")
 		} else {
-			if (page == 0) {
-				pages += 10;
-				document.getElementById("siguiente").setAttribute("href", "a")
+			pages += 10;
+			if (sort !== null || sort != undefined) {
+				document.getElementById("siguiente").setAttribute("href", "./?query=" + search + "/" + pages + "/" + sort)
 			} else {
-				pages += 10;
-				document.getElementById("siguiente").setAttribute("href", "a")
-				pages -= 20;
-				document.getElementById("anterior").setAttribute("href", "a")
+				document.getElementById("siguiente").setAttribute("href", "./?query=" + search + "/" + pages + "/0")
 			}
 
 			query = "http://localhost:3000/api/posts/postitle/" + search + "/0/0";
@@ -108,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 								<p class="description">` + data.description + `</p>
 							</div>
 							<div class="post-each-main-option">
-								<div>
+								<div onclick="showPost('` + data._id + `')">
 									<img class="comment" src="/icons/comment.svg">
 									<p>23 Comments</p>
 								</div>
@@ -120,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 									<img class="share" src="/icons/share.svg">
 									<p>Share</p>
 								</div>
-								<div>
+								<div onclick="savePost('` + data._id + `')">
 									<img class="save" src="/icons/save.svg">
 									<p>Save</p>
 								</div>

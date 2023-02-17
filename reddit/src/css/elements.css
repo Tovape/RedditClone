@@ -247,6 +247,65 @@
 	font-size: var(--micfont);
 }
 
+/* Show Full Post */
+
+.post-each-full {
+	position: fixed;
+	top:49px;
+	left:0;
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(50,50,50,0.6);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	opacity: 0;
+	-webkit-transition: all 0.4s ease-in-out;
+	transition: all 0.4s ease-in-out;
+}
+
+.post-each-full .content-wrap {
+	margin-top: 0px;
+}
+
+.post-each-full .content-wrap > .content {
+	background-color: var(--black1);
+	height: 100%;
+	width: 100%;
+	overflow-x: scroll;
+	padding: 20px;
+}
+
+.post-each-full-close {
+	width: 100%;
+	height: 30px;
+	display: flex;
+	align-items: center;
+    justify-content: flex-end;
+	gap: 12px;
+	cursor: pointer;
+}
+
+.post-each-full-close > p {
+	color: var(--white1);
+}
+
+.post-each-full-close > img {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+	height: 20px;
+	width: 20px;
+}
+
+.post-each-full-main {
+	
+}
+
+.post-each-full-comments {
+	
+}
+
 /* Content Intro */
 
 .content-intro {
@@ -671,6 +730,8 @@ html:has(body.login-template) {
 .content-search-pagination {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	gap: 10px;
 	margin-bottom: 20px;
+	width: 100%;	
 }

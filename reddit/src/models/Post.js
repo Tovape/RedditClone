@@ -1,7 +1,21 @@
 import { Schema, model } from "mongoose";
 
+const downvoteSchema = new Schema({
+	posterId: {
+		type: String,
+		required: true
+	}
+})
+
+const upvoteSchema = new Schema({
+	posterId: {
+		type: String,
+		required: true
+	}	
+})
+
 const commentSchema = new Schema({
-	poster: {
+	posterId: {
 		type: String,
 		required: true
 	},
@@ -9,8 +23,8 @@ const commentSchema = new Schema({
 		type: String,
 		required: true
 	},
-	upvotes: Number,
-	downvotes: Number
+	upvotes: [upvoteSchema],
+	downvotes: [downvoteSchema]
 }, {
 	timestamps: true,
 	versionKey: false
@@ -33,10 +47,10 @@ const postSchema = new Schema({
 		type: String,
 		required: true
 	},
-	upvotes: Number,
-	downvotes: Number,
+	upvotes: [upvoteSchema],
+	downvotes: [downvoteSchema],
 	imgUrl: String,
-	comments: commentSchema
+	comments: [commentSchema]
 }, {
 	timestamps: true,
 	versionKey: false

@@ -1,5 +1,6 @@
 // Global Variables
 var temp = null;
+var body_dom = null;
 var username_dom = null;
 var profile_toggle = null;
 var search_input = null;
@@ -12,6 +13,7 @@ var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov',
 // DOM
 document.addEventListener("DOMContentLoaded", function(event) {
 	// Menu
+	body_dom = document.getElementById("body")
 	profile_toggle = document.getElementById("menu-profile")
 	search_input = document.getElementById("search")
 	logout_button = document.getElementById("menu-logout-button")
@@ -94,157 +96,175 @@ function popup(status, message) {
 	}, 3000);
 }
 
-// Log Out
-
-function signout() {
-	eraseCookie("token")
-}
-
 // Get Posts
 
 function loadPostsBest() {
 	var query = "http://localhost:3000/api/posts/postsort/0";
-	loadPosts(query);
+	loadPosts(query, 0);
 }
 
 function loadPostsControversial() {
 	var query = "http://localhost:3000/api/posts/postsort/1";
-	loadPosts(query);
+	loadPosts(query, 0);
 }
 
 function loadPostsNew() {
 	var query = "http://localhost:3000/api/posts/postsort/2";
-	loadPosts(query);
+	loadPosts(query, 0);
 }
 
 function loadPostsOld() {
 	var query = "http://localhost:3000/api/posts/postsort/3";
-	loadPosts(query);
+	loadPosts(query, 0);
 }
 
-function loadPosts(query) {
-	fetch(query, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		}
-	}).then(response => {
-		return response.json();
-	}).then(data => {
-		console.log(data)
-		data.forEach(function(data) {
-			temp = "";
-			temp += `
-				<div class="content-feed-post-each" id=` + data._id + `>
-					<div class="post-each-votes">
-						<img class="upvote" src="/icons/upvote.svg">
-						<p class="votes">` + (convertVotes(data.upvotes - data.downvotes)) + `</p>
-						<img class="downvote" src="/icons/downvote.svg">
-					</div>
-					<div class="post-each-main">
-						<div class="post-each-main-details">
-							<img class="subreddit-icon" src="/icons/subreddit.svg">
-							<p class="subreddit-name">r/Subreddit</p>
-							<p>•</p>
-							<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
-							<p>•</p>
-							<p>` + (getTimePosted(data.createdAt)) + `</p>
-						</div>
-						<div class="post-each-main-content">
-							<p class="title">` + data.title + `</p>
-							<p class="description">` + data.description + `</p>
-						</div>
-						<div class="post-each-main-option">
-							<div>
-								<img class="comment" src="/icons/comment.svg">
-								<p>23 Comments</p>
-							</div>
-							<div>
-								<img class="award" src="/icons/award.svg">
-								<p>Award</p>
-							</div>
-							<div>
-								<img class="share" src="/icons/share.svg">
-								<p>Share</p>
-							</div>
-							<div>
-								<img class="save" src="/icons/save.svg">
-								<p>Save</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			`;
-			append_dom.insertAdjacentHTML("afterbegin", temp);
-		})
-	});
-}
-
-function loadPostsLogged(query) {
-	fetch(query, {
-		method: "GET",
-		headers: {
+function loadPosts(query, logged) {
+	var temp1 = "";
+	
+	if (logged == 1) {
+		temp1 = {
 			"Content-Type": "application/json",
 			"Accept": "application/json",
 			"x-access-token": token
 		}
+	} else {
+		temp1 = {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+			"x-access-token": token
+		}		
+	}
+	
+	fetch(query, {
+		method: "GET",
+		headers: temp1
 	}).then(response => {
 		return response.json();
 	}).then(data => {
-		console.log(data)
-		data.forEach(function(data) {
+		if (data.length == 0) {
 			temp = "";
 			temp += `
-				<div class="content-feed-post-each" id=` + data._id + `>
-					<div class="post-each-votes">
-						<img class="upvote" src="/icons/upvote.svg">
-						<p class="votes">` + (convertVotes(data.upvotes - data.downvotes)) + `</p>
-						<img class="downvote" src="/icons/downvote.svg">
-					</div>
-					<div class="post-each-main">
-						<div class="post-each-main-details">
-							<img class="subreddit-icon" src="/icons/subreddit.svg">
-							<p class="subreddit-name">r/Subreddit</p>
-							<p>•</p>
-							<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
-							<p>•</p>
-							<p>` + (getTimePosted(data.createdAt)) + `</p>
-						</div>
-						<div class="post-each-main-content">
-							<p class="title">` + data.title + `</p>
-							<p class="description">` + data.description + `</p>
-						</div>
-						<div class="post-each-main-option">
-							<div>
-								<img class="comment" src="/icons/comment.svg">
-								<p>23 Comments</p>
-							</div>
-							<div>
-								<img class="award" src="/icons/award.svg">
-								<p>Award</p>
-							</div>
-							<div>
-								<img class="share" src="/icons/share.svg">
-								<p>Share</p>
-							</div>
-							<div>
-								<img class="save" src="/icons/save.svg">
-								<p>Save</p>
-							</div>
-						</div>
+				<div class="content-feed-post-each">
+					<div class="post-each-main-details">
+						<p>No Posts Found</p>
 					</div>
 				</div>
 			`;
 			append_dom.insertAdjacentHTML("afterbegin", temp);
-		})
+		} else {
+			data.forEach(function(data) {
+				var upvotes = 0;
+				var downvotes = 0;
+				
+				if (data.upvotes) {
+					upvotes = data.upvotes.length
+				}
+				
+				if (data.downvotes) {
+					downvotes = data.downvotes.length
+				}
+				
+				console.log(data)
+				console.log(data.upvotes)
+				console.log(data.downvotes)
+				
+				temp = "";
+				temp += `
+					<div class="content-feed-post-each" id=` + data._id + `>
+						<div class="post-each-votes">
+							<img class="upvote" src="/icons/upvote.svg">
+							<p class="votes">` + convertVotes(upvotes - downvotes) + `</p>
+							<img class="downvote" src="/icons/downvote.svg">
+						</div>
+						<div class="post-each-main">
+							<div class="post-each-main-details">
+								<img class="subreddit-icon" src="/icons/subreddit.svg">
+								<p class="subreddit-name">r/Subreddit</p>
+								<p>•</p>
+								<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
+								<p>•</p>
+								<p>` + (getTimePosted(data.createdAt)) + `</p>
+							</div>
+							<div class="post-each-main-content">
+								<p class="title">` + data.title + `</p>
+								<p class="description">` + data.description + `</p>
+							</div>
+							<div class="post-each-main-option">
+								<div onclick="showPost('` + data._id + `')">
+									<img class="comment" src="/icons/comment.svg">
+									<p>` + data.comments.length + ` Comments</p>
+								</div>
+								<div>
+									<img class="award" src="/icons/award.svg">
+									<p>Award</p>
+								</div>
+								<div>
+									<img class="share" src="/icons/share.svg">
+									<p>Share</p>
+								</div>
+								<div onclick="savePost('` + data._id + `')">
+									<img class="save" src="/icons/save.svg">
+									<p>Save</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+				append_dom.insertAdjacentHTML("afterbegin", temp);
+			})
+		}
 	});
+}
+
+// Comment Post
+
+function showPost(id) {
+	console.log("Showing post with id: " + id)
+
+	temp = "";
+	temp += `
+	<div class="post-each-full" id="post-each-full">
+		<div class="content-wrap">
+			<div class="content home">
+				<div class="post-each-full-close" onclick="hidePost()">
+					<img src="/files/icons/cross.png">
+					<p>Close</p>
+				</div>
+				<div class="post-each-full-main">
+				
+				</div>
+				<div class="post-each-full-comments">
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	`;
+	
+	body_dom.classList.toggle("overflow-hidden")
+	body_dom.insertAdjacentHTML("afterbegin", temp);
+	setTimeout(function(){
+		document.getElementById("post-each-full").classList.add("opacity-1")
+	}, 400);
+}
+
+function hidePost() {
+	body_dom.classList.toggle("overflow-hidden")
+	document.getElementById("post-each-full").classList.remove("opacity-1")
+	setTimeout(function(){
+		document.getElementById("post-each-full").remove()
+	}, 400);
+}
+
+// Save Post
+
+function savePost(id) {
+	console.log("Saving post with id: " + id)
 }
 
 // Submit Post
 
 function submitPost(title, other, type) {
-	
 	var query = null;
 
 	if (type == 0) {
@@ -280,7 +300,7 @@ function submitPost(title, other, type) {
 		}, 2000);
 	}).catch((error) => {
 		console.log(error)
-		popup(3, "Post Error")
+		popup(2, "Post Error")
 	});
 }
 
@@ -338,6 +358,12 @@ function convertVotes(total) {
 	}
 }
 
+// Log Out
+
+function signout() {
+	eraseCookie("token")
+}
+
 // Login Signup
 
 function login() {
@@ -361,14 +387,20 @@ function login() {
 	}).then(response => {
 		return response.json();
 	}).then(data => {
-		setCookie('token',JSON.stringify(data),7);
-		popup(0, "Logged In")
-		setTimeout(function(){
-			window.location.href = "./";
-		}, 2000);
+		if (data.message == "User not found") {
+			popup(2, "User not found")
+		} else if (data.message == "Invalid Password") {
+			popup(2, "Invalid Password")
+		} else {
+			setCookie('token',JSON.stringify(data),7);
+			popup(0, "Logged In")
+			setTimeout(function(){
+				window.location.href = "./";
+			}, 2000);			
+		}
 	}).catch((error) => {
 		console.log(error)
-		popup(3, "Login Error")
+		popup(2, "Login Error")
 	});
 }
 

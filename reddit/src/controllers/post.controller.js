@@ -110,10 +110,33 @@ export const createPost = async (req, res) => {
 		posterName: getposterName.username,
 		title: req.body.title,
 		description: req.body.description,
-		upvotes: 0,
-		downvotes: 0,
+		upvotes: [
+			{ posterId: "63d0e100949d0701d33ab620" },
+			{ posterId: "63d0e100949d0701d33ab621" },
+			{ posterId: "63d0e100949d0701d33ab622" }
+		],
+		downvotes: null,
 		imgUrl: (req.body.image !== null ? req.body.image : null),
-		comments: null
+		comments: [
+			{
+				posterId: "63d0e100949d0701d33ab620",
+				comment: "Example Coment 1",
+				upvotes: [
+					{ posterId: "63d0e100949d0701d33ab620" },
+					{ posterId: "63d0e100949d0701d33ab621" },
+					{ posterId: "63d0e100949d0701d33ab622" }
+				],
+				downvotes: null
+			},
+			{
+				posterId: "63d0e100949d0701d33ab621",
+				comment: "Example Coment 2",
+				upvotes: [
+					{ posterId: "63d0e100949d0701d33ab620" }
+				],
+				downvotes: null
+			}
+		]
 	})
 	
 	const postSaved = await newPost.save();
