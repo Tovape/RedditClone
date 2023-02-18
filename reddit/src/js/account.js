@@ -23,6 +23,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function loadPostsNewAccount() {
 	var query = "http://localhost:3000/api/posts/postaccount/";
-	loadPosts(query, 1);
+	loadPosts(query);
 }
 

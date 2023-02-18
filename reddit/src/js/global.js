@@ -100,44 +100,66 @@ function popup(status, message) {
 
 function loadPostsBest() {
 	var query = "http://localhost:3000/api/posts/postsort/0";
-	loadPosts(query, 0);
+	loadPosts(query);
 }
 
 function loadPostsControversial() {
 	var query = "http://localhost:3000/api/posts/postsort/1";
-	loadPosts(query, 0);
+	loadPosts(query);
 }
 
 function loadPostsNew() {
 	var query = "http://localhost:3000/api/posts/postsort/2";
-	loadPosts(query, 0);
+	loadPosts(query);
 }
 
 function loadPostsOld() {
 	var query = "http://localhost:3000/api/posts/postsort/3";
-	loadPosts(query, 0);
+	loadPosts(query);
 }
 
-function loadPosts(query, logged) {
-	var temp1 = "";
+async function loadPostById(id) {
+	var query = "http://localhost:3000/api/posts/postid/" + id;
+
+	const response = await fetch(query, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"		
+		}
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		if (data.length == 0) {
+			popup(2, "Post Error")
+		} else {
+			return data;
+		}
+	});
 	
-	if (logged == 1) {
-		temp1 = {
+	const awaiterjson = await response;
+	return awaiterjson;
+}
+
+function loadPosts(query) {
+	var headersdyn = null;
+	
+	if (token !== null) {
+		headersdyn = {
 			"Content-Type": "application/json",
 			"Accept": "application/json",
 			"x-access-token": token
 		}
 	} else {
-		temp1 = {
+		headersdyn = {
 			"Content-Type": "application/json",
-			"Accept": "application/json",
-			"x-access-token": token
-		}		
+			"Accept": "application/json"
+		}
 	}
 	
 	fetch(query, {
 		method: "GET",
-		headers: temp1
+		headers: headersdyn
 	}).then(response => {
 		return response.json();
 	}).then(data => {
@@ -153,28 +175,16 @@ function loadPosts(query, logged) {
 			append_dom.insertAdjacentHTML("afterbegin", temp);
 		} else {
 			data.forEach(function(data) {
-				var upvotes = 0;
-				var downvotes = 0;
-				
-				if (data.upvotes) {
-					upvotes = data.upvotes.length
-				}
-				
-				if (data.downvotes) {
-					downvotes = data.downvotes.length
-				}
-				
-				console.log(data)
-				console.log(data.upvotes)
-				console.log(data.downvotes)
+
+				data = replaceNull(data, 0)
 				
 				temp = "";
 				temp += `
 					<div class="content-feed-post-each" id=` + data._id + `>
 						<div class="post-each-votes">
-							<img class="upvote" src="/icons/upvote.svg">
-							<p class="votes">` + convertVotes(upvotes - downvotes) + `</p>
-							<img class="downvote" src="/icons/downvote.svg">
+							<img onclick="vote('upvote', 'post', '` + data._id + `')" class="upvote" src="/icons/upvote.svg">
+							<p class="votes">` + convertVotes(data.upvotes.length + 1 - data.downvotes.length) + `</p>
+							<img onclick="vote('downvote', 'post', '` + data._id + `')" class="downvote" src="/icons/downvote.svg">
 						</div>
 						<div class="post-each-main">
 							<div class="post-each-main-details">
@@ -218,9 +228,57 @@ function loadPosts(query, logged) {
 
 // Comment Post
 
-function showPost(id) {
+async function showPost(id) {
 	console.log("Showing post with id: " + id)
+	var data = await loadPostById(id)
+	
+	data = replaceNull(data, 0)
 
+	var temp2 = "";
+	var temp3 = "";
+
+	if (token != null) {
+		temp2 += `
+		<div class="post-each-full-comments">
+			<p>Comment as ` + localStorage.getItem("username") + `</p>
+			<textarea maxlength="300" placeholder="Comment" rows="1" name="post_comment" id="post_comment"></textarea>
+			<p onclick="postComment(global, null)" class="generic-button" id="comment-submit-button">Comment</p>
+		</div>
+		`;
+		temp3 += `<div class="post-each-full-comments">`; 
+		data.comments.forEach(function(comment) {
+			
+			comment = replaceNull(comment, 0)
+			
+			temp3 += `
+			<div class="comment-each" comment=` + comment._id + `>
+				<div class="comment-each-banner">
+					<p>` + comment.posterName + ` • ` + (getTimePosted(comment.createdAt)) + `</p>
+				</div>
+				<div class="comment-each-content">
+					<p>` + comment.comment + `</p>
+				</div>
+				<div class="comment-each-votes">
+					<img onclick="vote('upvote', 'comment', '` + comment._id + `')" class="upvote" src="/icons/upvote.svg">
+					<p class="votes">` + convertVotes(comment.upvotes.length + 1 - comment.downvotes.length) + `</p>
+					<img onclick="vote('downvote', 'comment', '` + comment._id + `')" class="downvote" src="/icons/downvote.svg">
+					<div onclick="postComment('thread', '` + comment._id + `')">
+						<img class="comment" src="/icons/comment.svg">
+						<p>Reply</p>
+					</div>
+				</div>
+			</div>
+			`;
+		})
+		temp3 += `</div>`; 
+	} else {
+		temp2 += `
+		<div class="post-each-full-comments">
+			<p>Login to Comment</p>
+		</div>
+		`;
+	}
+	
 	temp = "";
 	temp += `
 	<div class="post-each-full" id="post-each-full">
@@ -231,18 +289,49 @@ function showPost(id) {
 					<p>Close</p>
 				</div>
 				<div class="post-each-full-main">
-				
+					<div class="post-each-votes">
+						<img onclick="vote('upvote', 'post', '` + data._id + `')"  class="upvote" src="/icons/upvote.svg">
+						<p class="votes">` + convertVotes(data.upvotes.length + 1 - data.downvotes.length) + `</p>
+						<img onclick="vote('downvote', 'post', '` + data._id + `')"  class="downvote" src="/icons/downvote.svg">
+					</div>
+					<div>
+						<div class="post-each-main-details">
+							<img class="subreddit-icon" src="/icons/subreddit.svg">
+							<p class="subreddit-name">r/Subreddit</p>
+							<p>•</p>
+							<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
+							<p>•</p>
+							<p>` + (getTimePosted(data.createdAt)) + `</p>
+						</div>
+						<div class="post-each-main-content">
+							<p class="title">` + data.title + `</p>
+							<p class="description">` + data.description + `</p>
+						</div>
+						<div class="post-each-main-option">
+							<div>
+								<img class="award" src="/icons/award.svg">
+								<p>Award</p>
+							</div>
+							<div>
+								<img class="share" src="/icons/share.svg">
+								<p>Share</p>
+							</div>
+							<div onclick="savePost('` + data._id + `')">
+								<img class="save" src="/icons/save.svg">
+								<p>Save</p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="post-each-full-comments">
-				
-				</div>
+				` + temp2 + `
+				` + temp3 + `
 			</div>
 		</div>
 	</div>
 	`;
 	
-	body_dom.classList.toggle("overflow-hidden")
 	body_dom.insertAdjacentHTML("afterbegin", temp);
+	body_dom.classList.toggle("overflow-hidden")
 	setTimeout(function(){
 		document.getElementById("post-each-full").classList.add("opacity-1")
 	}, 400);
@@ -260,6 +349,18 @@ function hidePost() {
 
 function savePost(id) {
 	console.log("Saving post with id: " + id)
+}
+
+// Vote
+
+function vote(type, where, id) {
+	console.log("Voting")
+}
+
+// Comment in Thread
+
+function postComment(type, id) {
+	console.log("Commenting")	
 }
 
 // Submit Post
@@ -302,6 +403,18 @@ function submitPost(title, other, type) {
 		console.log(error)
 		popup(2, "Post Error")
 	});
+}
+
+// Replace Null for 0
+
+function replaceNull(obj, replacer) {
+	Object.keys(obj).forEach(function(key) {
+		if(obj[key] === null) {
+			obj[key] = [""];
+		}
+	})
+	
+	return obj;
 }
 
 // Time Posted
@@ -393,6 +506,7 @@ function login() {
 			popup(2, "Invalid Password")
 		} else {
 			setCookie('token',JSON.stringify(data),7);
+			localStorage.setItem("username", val1)
 			popup(0, "Logged In")
 			setTimeout(function(){
 				window.location.href = "./";

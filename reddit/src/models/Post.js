@@ -19,6 +19,10 @@ const commentSchema = new Schema({
 		type: String,
 		required: true
 	},
+	posterName: {
+		type: String,
+		required: true
+	},
 	comment: {
 		type: String,
 		required: true
@@ -28,6 +32,10 @@ const commentSchema = new Schema({
 }, {
 	timestamps: true,
 	versionKey: false
+})
+
+commentSchema.add({
+	comments: [commentSchema]
 })
 
 const postSchema = new Schema({

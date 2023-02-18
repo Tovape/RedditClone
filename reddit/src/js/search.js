@@ -15,7 +15,7 @@ if (search !== null) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	append_dom = document.getElementById("content-feed-search-append");
+	append_dom = document.getElementById("content-feed-post-append");
 
 	// Set Pages
 	if (page !== null) {
@@ -85,62 +85,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	// Fetch
 	if (search !== null) {
-		fetch(query, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"Accept": "application/json",
-				"x-access-token": token
-			}
-		}).then(response => {
-			return response.json();
-		}).then(data => {
-			console.log(data)
-			data.forEach(function(data) {
-				temp = "";
-				temp += `
-					<div class="content-feed-post-each" id=` + data._id + `>
-						<div class="post-each-votes">
-							<img class="upvote" src="/icons/upvote.svg">
-							<p class="votes">` + (convertVotes(data.upvotes - data.downvotes)) + `</p>
-							<img class="downvote" src="/icons/downvote.svg">
-						</div>
-						<div class="post-each-main">
-							<div class="post-each-main-details">
-								<img class="subreddit-icon" src="/icons/subreddit.svg">
-								<p class="subreddit-name">r/Subreddit</p>
-								<p>•</p>
-								<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
-								<p>•</p>
-								<p>` + (getTimePosted(data.createdAt)) + `</p>
-							</div>
-							<div class="post-each-main-content">
-								<p class="title">` + data.title + `</p>
-								<p class="description">` + data.description + `</p>
-							</div>
-							<div class="post-each-main-option">
-								<div onclick="showPost('` + data._id + `')">
-									<img class="comment" src="/icons/comment.svg">
-									<p>23 Comments</p>
-								</div>
-								<div>
-									<img class="award" src="/icons/award.svg">
-									<p>Award</p>
-								</div>
-								<div>
-									<img class="share" src="/icons/share.svg">
-									<p>Share</p>
-								</div>
-								<div onclick="savePost('` + data._id + `')">
-									<img class="save" src="/icons/save.svg">
-									<p>Save</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				`;
-				append_dom.insertAdjacentHTML("afterbegin", temp);
-			})
-		});
+		loadPosts(query)
 	}
 });

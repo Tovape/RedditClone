@@ -1,8 +1,11 @@
+General:
+Post Comments and Vote System
+
 Server:
 JWT Expiration
 
-Post:
-Structure for upvotes and comments
-
 Auth Controller:
 Sign up check if user already exists
+
+Account:
+New Field in User.js for saved posts

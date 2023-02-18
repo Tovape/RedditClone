@@ -146,6 +146,17 @@ body::-webkit-scrollbar-thumb {
 	transition: all 0.4s ease-in-out;
 }
 
+.generic-button {
+	line-height: 1;
+	text-align: center;
+    border-radius: 900px;
+    background-color: var(--white1);
+    color: var(--black1);
+    padding: 6px 10px;
+    cursor: pointer;
+    width: fit-Content;
+}
+
 /* Menu */
 
 .menu {
