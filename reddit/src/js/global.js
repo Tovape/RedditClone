@@ -231,46 +231,19 @@ function loadPosts(query) {
 async function showPost(id) {
 	console.log("Showing post with id: " + id)
 	var data = await loadPostById(id)
-	
+
 	data = replaceNull(data, 0)
 
 	var temp2 = "";
-	var temp3 = "";
 
 	if (token != null) {
 		temp2 += `
 		<div class="post-each-full-comments">
 			<p>Comment as ` + localStorage.getItem("username") + `</p>
 			<textarea maxlength="300" placeholder="Comment" rows="1" name="post_comment" id="post_comment"></textarea>
-			<p onclick="postComment(global, null)" class="generic-button" id="comment-submit-button">Comment</p>
+			<p onclick="postComment('global', null)" class="generic-button" id="comment-submit-button">Comment</p>
 		</div>
 		`;
-		temp3 += `<div class="post-each-full-comments">`; 
-		data.comments.forEach(function(comment) {
-			
-			comment = replaceNull(comment, 0)
-			
-			temp3 += `
-			<div class="comment-each" comment=` + comment._id + `>
-				<div class="comment-each-banner">
-					<p>` + comment.posterName + ` • ` + (getTimePosted(comment.createdAt)) + `</p>
-				</div>
-				<div class="comment-each-content">
-					<p>` + comment.comment + `</p>
-				</div>
-				<div class="comment-each-votes">
-					<img onclick="vote('upvote', 'comment', '` + comment._id + `')" class="upvote" src="/icons/upvote.svg">
-					<p class="votes">` + convertVotes(comment.upvotes.length + 1 - comment.downvotes.length) + `</p>
-					<img onclick="vote('downvote', 'comment', '` + comment._id + `')" class="downvote" src="/icons/downvote.svg">
-					<div onclick="postComment('thread', '` + comment._id + `')">
-						<img class="comment" src="/icons/comment.svg">
-						<p>Reply</p>
-					</div>
-				</div>
-			</div>
-			`;
-		})
-		temp3 += `</div>`; 
 	} else {
 		temp2 += `
 		<div class="post-each-full-comments">
@@ -278,7 +251,7 @@ async function showPost(id) {
 		</div>
 		`;
 	}
-	
+
 	temp = "";
 	temp += `
 	<div class="post-each-full" id="post-each-full">
@@ -324,11 +297,47 @@ async function showPost(id) {
 					</div>
 				</div>
 				` + temp2 + `
-				` + temp3 + `
+				<div class="post-each-full-comments">`;
+	
+	// Get Comment Thread
+	if (data.comments[0] != "") {
+		data.comments.forEach(function(comment) {
+			comment = replaceNull(comment, 0)
+			
+			temp += `
+			<div class="comment-each" comment=` + comment._id + `>
+				<div class="comment-each-banner">
+					<p>` + comment.posterName + ` • ` + (getTimePosted(comment.createdAt)) + `</p>
+				</div>
+				<div class="comment-each-content">
+					<p>` + comment.comment + `</p>
+				</div>
+				<div class="comment-each-votes">
+					<img onclick="vote('upvote', 'comment', '` + comment._id + `')" class="upvote" src="/icons/upvote.svg">
+					<p class="votes">` + convertVotes(comment.upvotes.length + 1 - comment.downvotes.length) + `</p>
+					<img onclick="vote('downvote', 'comment', '` + comment._id + `')" class="downvote" src="/icons/downvote.svg">
+					<div onclick="postComment('thread', '` + comment._id + `')">
+						<img class="comment" src="/icons/comment.svg">
+						<p>Reply</p>
+					</div>
+				</div>
+				<div class="comment-each-thread">
+			`;
+			
+			temp += recurisveComments(comment);
+			
+			temp += `
+				</div>
+			</div>
+			`;
+		})
+	}
+				
+	temp += `
+
 			</div>
 		</div>
-	</div>
-	`;
+	</div>`;
 	
 	body_dom.insertAdjacentHTML("afterbegin", temp);
 	body_dom.classList.toggle("overflow-hidden")
@@ -343,6 +352,51 @@ function hidePost() {
 	setTimeout(function(){
 		document.getElementById("post-each-full").remove()
 	}, 400);
+}
+
+function recurisveComments(obj) {
+	var html = "";
+	var currentChild = null;
+	var result = null;
+
+	if (obj.comments != null) {
+		for (let i = 0; i < obj.comments.length; i++) {
+			currentChild = obj.comments[i];
+			currentChild = replaceNull(currentChild, 0)
+
+			result = recurisveComments(currentChild);
+			
+			if (result !== false && currentChild !== null && currentChild !== "") {
+				html += `
+				<div class="comment-each" comment="` + currentChild._id + `">
+					<div class="comment-each-banner">
+						<p>` + currentChild.posterName + ` • ` + (getTimePosted(currentChild.createdAt)) + `</p>
+					</div>
+					<div class="comment-each-content">
+						<p>` + currentChild.comment + `</p>
+					</div>
+					<div class="comment-each-votes">
+						<img onclick="vote('upvote', 'comment', '` + currentChild._id + `')" class="upvote" src="/icons/upvote.svg">
+						<p class="votes">` + convertVotes(currentChild.upvotes.length + 1 - currentChild.downvotes.length) + `</p>
+						<img onclick="vote('downvote', 'comment', '` + currentChild._id + `')" class="downvote" src="/icons/downvote.svg">
+						<div onclick="postComment('thread', '` + currentChild._id + `')">
+							<img class="comment" src="/icons/comment.svg">
+							<p>Reply</p>
+						</div>
+					</div>
+					<div class="comment-each-thread">
+				`;
+			}
+		}
+	}
+
+	html += `
+			</div>
+		</div>
+	</div>
+	`;
+
+	return html;
 }
 
 // Save Post

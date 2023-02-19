@@ -329,8 +329,8 @@
 }
 
 .post-each-full-comments > div:not(:last-child) {
-	border-bottom: 1px solid var(--gray3);
-	padding-bottom: 12px;
+	/*border-bottom: 1px solid var(--gray3);*/
+	padding-bottom: 10px;
 }
 
 .post-each-full-comments p {
@@ -383,6 +383,11 @@
     outline: 1px solid var(--gray2);
     transition: all 0.25s ease-in-out;
     -webkit-transition: all 0.25s ease-in-out;
+}
+
+.comment-each-thread {
+	padding-left: 10px;
+	border-left: 1px solid var(--gray3);
 }
 
 /* Content Intro */

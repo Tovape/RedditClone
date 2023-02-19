@@ -1,0 +1,70 @@
+
+		data.comments.forEach(function(comment) {
+			
+			comment = replaceNull(comment, 0)
+
+			temp3 += `
+			<div class="comment-each" comment=` + comment._id + `>
+				<div class="comment-each-banner">
+					<p>` + comment.posterName + ` • ` + (getTimePosted(comment.createdAt)) + `</p>
+				</div>
+				<div class="comment-each-content">
+					<p>` + comment.comment + `</p>
+				</div>
+				<div class="comment-each-votes">
+					<img onclick="vote('upvote', 'comment', '` + comment._id + `')" class="upvote" src="/icons/upvote.svg">
+					<p class="votes">` + convertVotes(comment.upvotes.length + 1 - comment.downvotes.length) + `</p>
+					<img onclick="vote('downvote', 'comment', '` + comment._id + `')" class="downvote" src="/icons/downvote.svg">
+					<div onclick="postComment('thread', '` + comment._id + `')">
+						<img class="comment" src="/icons/comment.svg">
+						<p>Reply</p>
+					</div>
+				</div>
+				<div class="comment-each-thread">`;
+			
+			if (comment.comments[0] != "") {
+				comment.comments.forEach(function(comment) {
+					temp3 += `
+					<div class="comment-each" comment=` + comment._id + `>
+						<div class="comment-each-banner">
+							<p>` + comment.posterName + ` • ` + (getTimePosted(comment.createdAt)) + `</p>
+						</div>
+						<div class="comment-each-content">
+							<p>` + comment.comment + `</p>
+						</div>
+						<div class="comment-each-votes">
+							<img onclick="vote('upvote', 'comment', '` + comment._id + `')" class="upvote" src="/icons/upvote.svg">
+							<p class="votes"></p>
+							<img onclick="vote('downvote', 'comment', '` + comment._id + `')" class="downvote" src="/icons/downvote.svg">
+							<div onclick="postComment('thread', '` + comment._id + `')">
+								<img class="comment" src="/icons/comment.svg">
+								<p>Reply</p>
+							</div>
+						</div>
+						<div class="comment-each-thread">
+						</div>
+					</div>
+					`;
+				})
+			}
+
+			temp3 += `
+				</div>
+			</div>
+			`;
+		})
+		temp3 += `</div>`; 
+	} else {
+		temp2 += `
+		<div class="post-each-full-comments">
+			<p>Login to Comment</p>
+		</div>
+		`;
+	}
+	
+
+				` + temp3 + `
+			</div>
+		</div>
+	</div>
+	`;

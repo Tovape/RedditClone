@@ -128,7 +128,8 @@ export const createPost = async (req, res) => {
 					{ posterId: "63d0e100949d0701d33ab622" }
 				],
 				downvotes: null,
-				comments: {
+				comments: [ 
+				{
 					posterId: "63d0e100949d0701d33ab620",
 					posterName: "Tovape",
 					comment: "Example thread 1",
@@ -138,8 +139,43 @@ export const createPost = async (req, res) => {
 						{ posterId: "63d0e100949d0701d33ab621" },
 						{ posterId: "63d0e100949d0701d33ab622" }
 					],
-					comments: null
+					comments: {
+						posterId: "63d0e100949d0701d33ab620",
+						posterName: "Tovape",
+						comment: "Example thread thread 1",
+						upvotes: null,
+						downvotes: [
+							{ posterId: "63d0e100949d0701d33ab620" },
+							{ posterId: "63d0e100949d0701d33ab621" },
+							{ posterId: "63d0e100949d0701d33ab622" }
+						],
+						comments: null
+					}
+				},
+				{
+					posterId: "63d0e100949d0701d33ab620",
+					posterName: "Tovape",
+					comment: "Example thread-2 1",
+					upvotes: null,
+					downvotes: [
+						{ posterId: "63d0e100949d0701d33ab620" },
+						{ posterId: "63d0e100949d0701d33ab621" },
+						{ posterId: "63d0e100949d0701d33ab622" }
+					],
+					comments: {
+						posterId: "63d0e100949d0701d33ab620",
+						posterName: "Tovape",
+						comment: "Example thread-2 thread 1",
+						upvotes: null,
+						downvotes: [
+							{ posterId: "63d0e100949d0701d33ab620" },
+							{ posterId: "63d0e100949d0701d33ab621" },
+							{ posterId: "63d0e100949d0701d33ab622" }
+						],
+						comments: null
+					}
 				}
+				]
 			},
 			{
 				posterId: "63d0e100949d0701d33ab621",
