@@ -4,15 +4,16 @@ import jwt from "jsonwebtoken";
 
 export const signUp = async (req, res) => {
 	const { username, email, password, roles } = req.body;
-	
-	// ADD EMAIL OR USERNAME CHECK
-	//const userFound = User.find({email})
-	
+
 	const newUser = new User({
 		username,
 		email,
 		password: await User.encryptPassword(password)
 	})
+	
+	newUser.saved = [{}]
+	newUser.upvoted = [{}]
+	newUser.downvoted = [{}]
 	
 	if (roles) {
 		const foundRoles = await Role.find({name: {$in: roles}})
@@ -29,27 +30,27 @@ export const signUp = async (req, res) => {
 		expiresIn: 84600
 	})
 	
-	res.status(200).json({token: token})
+	res.status(200).json({token: token, message: "User Created", "userId": savedUser._id})
 }
 
 export const signIn = async (req, res) => {
 	const userFound = await User.findOne({username: req.body.username}).populate("roles");
 	
 	if (!userFound) {
-		return res.status(400).json({message: "User not found"})
+		return res.json({message: "User not found"})
 	}
 	
 	const matchPassword = await User.comparePassword(req.body.password, userFound.password)
 	
 	if (!matchPassword) {
-		return res.status(401).json({token: null, message: "Invalid Password"})
+		return res.json({ message: "Invalid Password"})
 	}
-	
+
 	const token = jwt.sign({id: userFound._id}, "user-api-signed", {
 		expiresIn: 84600
 	})
 	
 	console.log(userFound)
 	res.cookie('token', token, { httpOnly: false })
-	res.status(200).json({token: token})
+	res.status(200).json({token: token, "userId": userFound._id})
 }

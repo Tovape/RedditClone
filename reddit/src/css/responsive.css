@@ -21,13 +21,23 @@
 @media (max-width: 1000px) {
 
 .content {
-	max-width: 600px;
+	width: 100%;
+	padding: 0 20px 20px 20px;
 }
 
 }
 
 @media (max-width: 700px) {
-	
+
+.content {
+	flex-direction: column-reverse;
+}
+
+.content > div:not(.post-each-full-comments) {
+	min-width: none;
+	width: 100%;
+}
+
 .menu .menu-logo a img:nth-child(2) {
 	display: none;
 }

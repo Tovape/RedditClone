@@ -414,7 +414,8 @@ body::-webkit-scrollbar-thumb {
 	flex-direction: row;
 	align-items: center;
 	gap: 10px;
-	transform: translateY(52px)
+	transform: translateY(52px);
+	z-index: 5;
 }
 
 #popup-message {

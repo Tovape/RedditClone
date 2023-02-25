@@ -1,6 +1,30 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
+const savedPost = new Schema({
+	postId: {
+		type: String
+	}
+}, {
+	versionKey: false
+})
+
+const downvoteSchema = new Schema({
+	postId: {
+		type: String
+	}
+}, {
+	versionKey: false
+})
+
+const upvoteSchema = new Schema({
+	postId: {
+		type: String
+	}	
+}, {
+	versionKey: false
+})
+
 const userSchema = new Schema({
 	username: {
 		type: String,
@@ -16,6 +40,9 @@ const userSchema = new Schema({
 		type: String,
 		required: true
 	},
+	saved: [savedPost],
+	upvoted: [upvoteSchema],
+	downvoted: [downvoteSchema],
 	roles: [{
 		ref: "Role",
 		type: Schema.Types.ObjectId

@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	for (let i = 0; i < post_dom.length; i++) {
 		post_dom[i].addEventListener("click", function() {
 			post_type = this.value;
+			if (this.getAttribute("value") == "saved") {
+				loadPostsSavedAccount()
+			} else if (this.getAttribute("value") == "posts") {
+				loadPostsPostsAccount()
+			} else if (this.getAttribute("value") == "upvoted") {
+				loadPostsUpvotedAccount()
+			} else if (this.getAttribute("value") == "downvoted") {
+				loadPostsDownvotedAccount()
+			}
 			if (!this.classList.contains("active")) {
 				post_dom.forEach(function(e) {
 					e.classList.remove('active');
@@ -18,11 +27,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		})
 	}
 	
-	loadPostsNewAccount()
+	loadPostsPostsAccount()
 });
 
-function loadPostsNewAccount() {
+function loadPostsPostsAccount() {
 	var query = "http://localhost:3000/api/posts/postaccount/";
 	loadPosts(query);
 }
 
+function loadPostsSavedAccount() {
+	var query = "http://localhost:3000/api/posts/savedpostaccount/";
+	loadPosts(query, document.getElementById("content-feed-saved-append"));
+}
+
+function loadPostsUpvotedAccount() {
+	var query = "http://localhost:3000/api/posts/upvotedpostaccount/";
+	loadPosts(query, document.getElementById("content-feed-upvoted-append"));
+}
+function loadPostsDownvotedAccount() {
+	var query = "http://localhost:3000/api/posts/downvotedpostaccount/";
+	loadPosts(query, document.getElementById("content-feed-downvoted-append"));
+}

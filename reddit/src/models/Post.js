@@ -2,30 +2,29 @@ import { Schema, model } from "mongoose";
 
 const downvoteSchema = new Schema({
 	posterId: {
-		type: String,
-		required: true
+		type: String
 	}
+}, {
+	versionKey: false
 })
 
 const upvoteSchema = new Schema({
 	posterId: {
-		type: String,
-		required: true
+		type: String
 	}	
+}, {
+	versionKey: false
 })
 
 const commentSchema = new Schema({
 	posterId: {
-		type: String,
-		required: true
+		type: String
 	},
 	posterName: {
-		type: String,
-		required: true
+		type: String
 	},
 	comment: {
-		type: String,
-		required: true
+		type: String
 	},
 	upvotes: [upvoteSchema],
 	downvotes: [downvoteSchema]

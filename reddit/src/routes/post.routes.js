@@ -11,7 +11,19 @@ router.get("/postid/:postId", postController.getPostById)
 
 router.get("/postaccount/", postController.getPostsByAccount)
 
+router.get("/savedpostaccount/", postController.savedPostAccount)
+
+router.get("/upvotedpostaccount/", postController.upvotedPostAccount)
+
+router.get("/downvotedpostaccount/", postController.downvotedPostAccount)
+
+router.post("/postcomment/:postId", postController.createComment)
+
 router.post("/", verifyToken, postController.createPost)
+
+router.post("/postupvote/:postId", postController.upvotePost)
+
+router.post("/postdownvote/:postId", postController.downvotePost)
 
 router.put("/:postId", verifyToken, postController.updatePostById)
 

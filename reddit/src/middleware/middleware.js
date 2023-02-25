@@ -25,17 +25,18 @@ export const verifyToken = async (req, res, next) => {
 }
 
 export const checkDuplicate = async (req, res, next) => {
+	
 	const user = await User.findOne({username: req.body.username})
 
-	if (user) return res.status(400).json({
-		message: "User Already Extists"
-	})
+	if (user) {
+		return res.json({message: "User Already Extists"})
+	}
 	
 	const email = await User.findOne({email: req.body.email})
 	
-	if (email) return res.status(400).json({
-		message: "Email Already Extists"
-	})
+	if (email) {
+		return res.json({message: "Email Already Extists"})
+	}
 	
 	next()
 }
