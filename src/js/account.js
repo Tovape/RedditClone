@@ -44,6 +44,7 @@ function loadPostsUpvotedAccount() {
 	var query = "http://localhost:3000/api/posts/upvotedpostaccount/";
 	loadPosts(query, document.getElementById("content-feed-upvoted-append"));
 }
+
 function loadPostsDownvotedAccount() {
 	var query = "http://localhost:3000/api/posts/downvotedpostaccount/";
 	loadPosts(query, document.getElementById("content-feed-downvoted-append"));

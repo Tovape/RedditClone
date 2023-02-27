@@ -1,9 +1,0 @@
-Stop Service:
-Open Admin CMD
-net stop MongoDB
-
-Enter Shell:
-MongoDB Compass
-
-Enter GraphQLi:
-localhost:3000/graphql?query=%7B%0A%09data%0A%7D

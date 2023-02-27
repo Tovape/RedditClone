@@ -250,7 +250,7 @@ function loadPosts(query, dom) {
 								<p class="description">` + data.description + `</p>
 							</div>
 							<div class="post-each-main-option">
-								<div onclick="showPost('` + data._id + `')">
+								<div onclick="showPost('` + data._id + `', '` + JSON.stringify(userstats).replace(/'/g, '&apos;').replace(/"/g, '&quot;') + `')">
 									<img class="comment" src="/icons/comment.svg">
 									<p>` + data.comments.length + ` Comments</p>
 								</div>
@@ -314,9 +314,14 @@ function loadPosts(query, dom) {
 
 // Comment Post
 
-async function showPost(id) {
+async function showPost(id, json) {
 	console.log("Showing post with id: " + id)
 	var data = await loadPostById(id)
+
+	var userstats = JSON.parse(json)
+
+	var flagSaved = 0;
+	var flagVoted = 0;
 	
 	data = replaceNull(data, 0)
 
@@ -348,23 +353,51 @@ async function showPost(id) {
 					<p>Close</p>
 				</div>
 				<div class="post-each-full-main">
-					<div class="post-each-votes">
-						<img onclick="vote('upvote', 'post', '` + data._id + `')"  class="upvote" src="/icons/upvote.svg">
-						<p class="votes">` + convertVotes(data.upvotes.length + 1 - data.downvotes.length) + `</p>
-						<img onclick="vote('downvote', 'post', '` + data._id + `')"  class="downvote" src="/icons/downvote.svg">
+					<div class="post-each-votes">`;
+							
+							if (userstats !== null) {
+								for (let i = 0; i < userstats.upvoted.length; i++) {
+									if (userstats.upvoted[i].postId == data.posts._id) {
+										flagSaved = 1;
+									}
+								}
+								for (let i = 0; i < userstats.downvoted.length; i++) {
+									if (userstats.downvoted[i].postId == data.posts._id) {
+										flagSaved = 2;
+									}
+								}
+							}
+														
+							if (flagSaved == 1) {
+								temp += `<img onclick="vote('upvote', 'post', '` + data.posts._id + `')" class="upvote active" src="/icons/upvote.svg">`;
+							} else {
+								temp += `<img onclick="vote('upvote', 'post', '` + data.posts._id + `')" class="upvote" src="/icons/upvote.svg">`;
+							}
+						
+							temp += `<p class="votes">` + convertVotes(data.posts.upvotes.length + 1 - data.posts.downvotes.length) + `</p>`;
+							
+							if (flagSaved == 2) {
+								temp += `<img onclick="vote('downvote', 'post', '` + data.posts._id + `')" class="downvote active" src="/icons/downvote.svg">`;
+							} else {
+								temp += `<img onclick="vote('downvote', 'post', '` + data.posts._id + `')" class="downvote " src="/icons/downvote.svg">`;
+							}
+							
+							flagSaved = 0;
+					
+					temp += `
 					</div>
 					<div>
 						<div class="post-each-main-details">
 							<img class="subreddit-icon" src="/icons/subreddit.svg">
 							<p class="subreddit-name">r/Subreddit</p>
 							<p>•</p>
-							<p>Posted by <span><a style="display: inline;" href="./u/` + data.posterName + `">` + data.posterName + `</a></span></p>
+							<p>Posted by <span><a style="display: inline;" href="./u/` + data.posts.posterName + `">` + data.posts.posterName + `</a></span></p>
 							<p>•</p>
-							<p>` + (getTimePosted(data.createdAt)) + `</p>
+							<p>` + (getTimePosted(data.posts.createdAt)) + `</p>
 						</div>
 						<div class="post-each-main-content">
-							<p class="title">` + data.title + `</p>
-							<p class="description">` + data.description + `</p>
+							<p class="title">` + data.posts.title + `</p>
+							<p class="description">` + data.posts.description + `</p>
 						</div>
 						<div class="post-each-main-option">
 							<div>
@@ -375,14 +408,31 @@ async function showPost(id) {
 								<img class="share" src="/icons/share.svg">
 								<p>Share</p>
 							</div>
-							<div onclick="savePost('` + data._id + `')">
-								<img class="save" src="/icons/save.svg">
-								<p>Save</p>
-							</div>`;
+								<div onclick="savePost('` + data.posts._id + `')">`;
+								
+								if (userstats !== null) {
+									for (let i = 0; i < userstats.saved.length; i++) {
+										if (userstats.saved[i].postId == data._id) {
+											flagSaved = 1;
+										}
+									}
+								}
+								
+								if (flagSaved == 0) {
+									temp += `
+										<img class="save" src="/icons/save.svg">
+										<p>Save</p>
+									</div>`;
+								} else {
+									temp += `
+										<img class="save" src="/icons/saved.svg">
+										<p>Saved</p>
+									</div>`;
+								}
 							
-							if (localStorage.getItem("username") == data.posterName) {
+							if (localStorage.getItem("username") == data.posts.posterName) {
 								temp += `
-								<div onclick="deletePost('` + data._id + `')">
+								<div onclick="deletePost('` + data.posts._id + `')">
 									<img class="delete" src="/icons/delete.svg">
 									<p>Delete</p>
 								</div>
@@ -397,7 +447,7 @@ async function showPost(id) {
 				<div class="post-each-full-comments" id="post-each-full-comments">`;
 	
 	// Get Comment Thread
-	data.comments.forEach(function(comment) {
+	data.posts.comments.forEach(function(comment) {
 		if ('posterId' in comment) {
 			comment = replaceNull(comment, 0)
 			
@@ -553,10 +603,16 @@ function savePost(id) {
 			popup(0, "Post Saved")
 			document.getElementById(id).querySelector(".post-each-main-option > div:nth-child(4) > img").setAttribute("src", "/icons/saved.svg")
 			document.getElementById(id).querySelector(".post-each-main-option > div:nth-child(4) > p").textContent = "Saved";
+			
+			document.getElementById("post-each-full").querySelector(".post-each-main-option > div:nth-child(3) > img").setAttribute("src", "/icons/saved.svg")
+			document.getElementById("post-each-full").querySelector(".post-each-main-option > div:nth-child(3) > p").textContent = "Saved";
 		} else if (data.message == "Post Unsaved") {
 			popup(0, "Post Unsaved")
 			document.getElementById(id).querySelector(".post-each-main-option > div:nth-child(4) > img").setAttribute("src", "/icons/save.svg")
 			document.getElementById(id).querySelector(".post-each-main-option > div:nth-child(4) > p").textContent = "Save";
+			
+			document.getElementById("post-each-full").querySelector(".post-each-main-option > div:nth-child(3) > img").setAttribute("src", "/icons/save.svg")
+			document.getElementById("post-each-full").querySelector(".post-each-main-option > div:nth-child(3) > p").textContent = "Save";
 		} else {
 			popup(2, "Saving Error")
 		}
@@ -599,32 +655,52 @@ function vote(type, where, id) {
 			var upvote = document.getElementById(id).querySelector(".post-each-votes .upvote")
 			var votes = document.getElementById(id).querySelector(".post-each-votes .votes")
 			
+			var full_downvote = document.getElementById("post-each-full").querySelector(".post-each-votes .downvote")
+			var full_upvote = document.getElementById("post-each-full").querySelector(".post-each-votes .upvote")
+			var full_votes = document.getElementById("post-each-full").querySelector(".post-each-votes .votes")
+			
 			if (data.message == "Post Upvoted") {
 				popup(0, "Post Upvoted")
 				if (downvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) + 2;
+					full_votes.textContent = parseInt(full_votes.textContent) + 2;
 				} else {
 					votes.textContent++;
+					full_votes.textContent++;
 				}
 				upvote.classList.add("active")
 				downvote.classList.remove("active")
+				
+				full_upvote.classList.add("active")
+				full_downvote.classList.remove("active")
 			} else if (data.message == "Post Un Upvoted") {
 				popup(0, "Post Un Upvoted")
 				votes.textContent--;
+				full_upvote.textContent--;
+				
 				upvote.classList.remove("active")
+				full_upvote.classList.remove("active")
 			} else if (data.message == "Post Downvoted") {
 				popup(0, "Post Downvoted")
 				if (upvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) - 2;
+					full_votes.textContent = parseInt(full_votes.textContent) - 2;
 				} else {
 					votes.textContent--;
+					full_votes.textContent--;
 				}
 				upvote.classList.remove("active")
 				downvote.classList.add("active")
+				
+				full_upvote.classList.remove("active")
+				full_downvote.classList.add("active")
 			} else if (data.message == "Post Un Downvoted") {
 				popup(0, "Post Un Downvoted")
 				votes.textContent++;
 				downvote.classList.remove("active")
+				
+				full_votes.textContent++;
+				full_downvote.classList.remove("active")
 			} else {
 				popup(2, "Vote Error")
 			}
