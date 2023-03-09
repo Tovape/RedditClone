@@ -654,53 +654,72 @@ function vote(type, where, id) {
 			var downvote = document.getElementById(id).querySelector(".post-each-votes .downvote")
 			var upvote = document.getElementById(id).querySelector(".post-each-votes .upvote")
 			var votes = document.getElementById(id).querySelector(".post-each-votes .votes")
+			var full = 0;
+			var full_downvote = null;
+			var full_upvote = null;
+			var full_votes = null;
 			
-			var full_downvote = document.getElementById("post-each-full").querySelector(".post-each-votes .downvote")
-			var full_upvote = document.getElementById("post-each-full").querySelector(".post-each-votes .upvote")
-			var full_votes = document.getElementById("post-each-full").querySelector(".post-each-votes .votes")
+			if (document.getElementById("post-each-full")) {
+				full_downvote = document.getElementById("post-each-full").querySelector(".post-each-votes .downvote")
+				full_upvote = document.getElementById("post-each-full").querySelector(".post-each-votes .upvote")
+				full_votes = document.getElementById("post-each-full").querySelector(".post-each-votes .votes")
+				full = 1;
+			}
 			
 			if (data.message == "Post Upvoted") {
 				popup(0, "Post Upvoted")
 				if (downvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) + 2;
-					full_votes.textContent = parseInt(full_votes.textContent) + 2;
+					if (full === 1) {
+						full_votes.textContent = parseInt(full_votes.textContent) + 2;
+					}
 				} else {
 					votes.textContent++;
-					full_votes.textContent++;
+					if (full === 1) {
+						full_votes.textContent++;
+					}
 				}
 				upvote.classList.add("active")
 				downvote.classList.remove("active")
-				
-				full_upvote.classList.add("active")
-				full_downvote.classList.remove("active")
+				if (full === 1) {
+					full_upvote.classList.add("active")
+					full_downvote.classList.remove("active")
+				}
 			} else if (data.message == "Post Un Upvoted") {
 				popup(0, "Post Un Upvoted")
-				votes.textContent--;
-				full_upvote.textContent--;
-				
+				votes.textContent--;				
 				upvote.classList.remove("active")
-				full_upvote.classList.remove("active")
+				if (full === 1) {
+					full_upvote.textContent--;
+					full_upvote.classList.remove("active")
+				}
 			} else if (data.message == "Post Downvoted") {
 				popup(0, "Post Downvoted")
 				if (upvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) - 2;
-					full_votes.textContent = parseInt(full_votes.textContent) - 2;
+					if (full === 1) {
+						full_votes.textContent = parseInt(full_votes.textContent) - 2;
+					}
 				} else {
 					votes.textContent--;
-					full_votes.textContent--;
+					if (full === 1) {
+						full_votes.textContent--;
+					}
 				}
 				upvote.classList.remove("active")
 				downvote.classList.add("active")
-				
-				full_upvote.classList.remove("active")
-				full_downvote.classList.add("active")
+				if (full === 1) {
+					full_upvote.classList.remove("active")
+					full_downvote.classList.add("active")
+				}
 			} else if (data.message == "Post Un Downvoted") {
 				popup(0, "Post Un Downvoted")
 				votes.textContent++;
 				downvote.classList.remove("active")
-				
-				full_votes.textContent++;
-				full_downvote.classList.remove("active")
+				if (full === 1) {
+					full_votes.textContent++;
+					full_downvote.classList.remove("active")
+				}
 			} else {
 				popup(2, "Vote Error")
 			}
