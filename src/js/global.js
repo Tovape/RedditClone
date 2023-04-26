@@ -324,7 +324,7 @@ async function showPost(id, json) {
 	var flagVoted = 0;
 	
 	data = replaceNull(data, 0)
-
+	
 	var temp2 = "";
 
 	if (token != null) {
@@ -332,7 +332,7 @@ async function showPost(id, json) {
 		<div class="post-each-full-comments">
 			<p>Comment as ` + localStorage.getItem("username") + `</p>
 			<textarea maxlength="300" placeholder="Comment" rows="1" name="post_comment" id="post_comment"></textarea>
-			<p onclick="postComment('global', '` + data._id + `')" class="generic-button" id="comment-submit-button">Comment</p>
+			<p onclick="postComment('global', '` + data.posts._id + `')" class="generic-button" id="comment-submit-button">Comment</p>
 		</div>
 		`;
 	} else {
@@ -650,7 +650,7 @@ function vote(type, where, id) {
 			}
 			return response.json();
 		}).then(data => {
-			
+			/*
 			var downvote = document.getElementById(id).querySelector(".post-each-votes .downvote")
 			var upvote = document.getElementById(id).querySelector(".post-each-votes .upvote")
 			var votes = document.getElementById(id).querySelector(".post-each-votes .votes")
@@ -665,9 +665,11 @@ function vote(type, where, id) {
 				full_votes = document.getElementById("post-each-full").querySelector(".post-each-votes .votes")
 				full = 1;
 			}
+			*/
 			
 			if (data.message == "Post Upvoted") {
 				popup(0, "Post Upvoted")
+				/*
 				if (downvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) + 2;
 					if (full === 1) {
@@ -685,16 +687,20 @@ function vote(type, where, id) {
 					full_upvote.classList.add("active")
 					full_downvote.classList.remove("active")
 				}
+				*/
 			} else if (data.message == "Post Un Upvoted") {
 				popup(0, "Post Un Upvoted")
+				/*
 				votes.textContent--;				
 				upvote.classList.remove("active")
 				if (full === 1) {
 					full_upvote.textContent--;
 					full_upvote.classList.remove("active")
 				}
+				*/
 			} else if (data.message == "Post Downvoted") {
 				popup(0, "Post Downvoted")
+				/*
 				if (upvote.classList.contains("active")) {
 					votes.textContent = parseInt(votes.textContent) - 2;
 					if (full === 1) {
@@ -712,14 +718,17 @@ function vote(type, where, id) {
 					full_upvote.classList.remove("active")
 					full_downvote.classList.add("active")
 				}
+				*/
 			} else if (data.message == "Post Un Downvoted") {
 				popup(0, "Post Un Downvoted")
+				/*
 				votes.textContent++;
 				downvote.classList.remove("active")
 				if (full === 1) {
 					full_votes.textContent++;
 					full_downvote.classList.remove("active")
 				}
+				*/
 			} else {
 				popup(2, "Vote Error")
 			}

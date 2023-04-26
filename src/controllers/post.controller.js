@@ -202,7 +202,7 @@ export const createComment = async (req, res) => {
 	req.body.posterId = decoded.id;
 	
 	if (!req.body.comment) return res.status(403).json({message: "No comment provided"})
-	if (!req.params.postId) return res.status(403).json({message: "No postid provided"})
+	if (!req.params.postId || (req.params.postId == "undefined")) return res.status(403).json({message: "No postid provided"})
 	
 	const getposterName = await User.findById(req.body.posterId);
 

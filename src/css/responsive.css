@@ -21,7 +21,7 @@
 @media (max-width: 1000px) {
 
 .content {
-	width: 100%;
+	width: calc(100% - 40px);
 	padding: 0 20px 20px 20px;
 }
 
@@ -40,6 +40,14 @@
 
 .menu .menu-logo a img:nth-child(2) {
 	display: none;
+}
+
+.content-login > div > div > input {
+    width: calc(100% - 20px);
+}
+	
+.content-login > div > div > button {
+    width: calc(100% - 80px);
 }
 	
 }
