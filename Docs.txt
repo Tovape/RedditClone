@@ -1,17 +1,17 @@
 Para nuevo usuario hacemos fetch de 
 
 {
-    "username": "Toni",
-    "email": "tonivalverde0@gmail.com",
-    "password": "ireland36"
+    "username": "x",
+    "email": "x@x.com",
+    "password": "x"
 }
 
 para un usuario que es admin el podra hacer
 
 {
-    "username": "Toni",
-    "email": "tonivalverde0@gmail.com",
-    "password": "ireland36",
+    "username": "x",
+    "email": "x@x.com",
+    "password": "x",
     "roles": [
         "admin",
 	"other"
